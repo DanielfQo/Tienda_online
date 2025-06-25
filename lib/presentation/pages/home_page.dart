@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import '../../routes/app_routes.dart';
 import '../widgets/product_card.dart';
 
 class HomePage extends StatefulWidget {
@@ -30,7 +32,21 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: const Text('Tienda Online'),
         actions: [
-          IconButton(icon: const Icon(Icons.shopping_cart), onPressed: () {}),
+          TextButton(
+            onPressed: () {
+              context.go(AppRoutes.login); // Navega a la pantalla de login
+            },
+            child: const Text(
+              'Iniciar sesión',
+              style: TextStyle(color: Colors.black),
+            ),
+          ),
+          IconButton(
+            icon: const Icon(Icons.shopping_cart),
+            onPressed: () {
+              // Acción del carrito
+            },
+          ),
         ],
       ),
       body: Column(

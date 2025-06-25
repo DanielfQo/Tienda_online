@@ -1,9 +1,18 @@
+
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'routes/app_router.dart';
-import 'core/theme/app_theme.dart';
+import 'presentation/providers/auth_provider.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => AuthProvider()),
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -12,9 +21,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
-      title: 'Cliente Flutter',
-      theme: AppTheme.darkTheme,
       routerConfig: appRouter,
+      title: 'Login con Provider',
       debugShowCheckedModeBanner: false,
     );
   }
