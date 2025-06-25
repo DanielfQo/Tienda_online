@@ -9,19 +9,32 @@ class ProductCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      elevation: 4,
+      elevation: 3,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Expanded(
             child: Container(
-              color: Colors.grey[700],
-              child: const Icon(Icons.image, size: 60),
+              decoration: BoxDecoration(
+                color: Colors.grey[800],
+                borderRadius: const BorderRadius.vertical(
+                  top: Radius.circular(10),
+                ),
+              ),
+              child: const Center(
+                child: Icon(Icons.image, size: 60, color: Colors.white38),
+              ),
             ),
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Text(name, style: Theme.of(context).textTheme.bodyLarge),
+            child: Text(
+              name,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              style: Theme.of(context).textTheme.bodyLarge,
+            ),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8),
@@ -31,10 +44,33 @@ class ProductCard extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: ElevatedButton(
-              onPressed: () {},
-              child: const Text('Agregar'),
+            padding: const EdgeInsets.only(left: 8, right: 8, bottom: 8),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                IconButton(
+                  icon: const Icon(
+                    Icons.favorite_border,
+                    color: Colors.white70,
+                  ),
+                  onPressed: () {},
+                  splashRadius: 20,
+                ),
+                ElevatedButton(
+                  onPressed: () {},
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Theme.of(context).colorScheme.primary,
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 8,
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(6),
+                    ),
+                  ),
+                  child: const Text('Agregar'),
+                ),
+              ],
             ),
           ),
         ],

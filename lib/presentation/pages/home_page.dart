@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../widgets/product_card.dart';
+import 'package:tienda_online/presentation/widgets/product_card.dart'; // Asegúrate de tener este archivo
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -14,58 +14,63 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    loadProducts();
-  }
-
-  void loadProducts() {
-    // Aquí en el futuro llamarías a una API
-    setState(() {
-      products = List.generate(8, (index) => 'Producto ${index + 1}');
-    });
+    products = List.generate(10, (i) => 'Producto ${i + 1}');
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFF121212),
       appBar: AppBar(
-        title: const Text('Tienda Online'),
+        title: const Text(
+          "MiTienda",
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+        backgroundColor: Colors.black,
         actions: [
+          IconButton(icon: const Icon(Icons.favorite_border), onPressed: () {}),
           IconButton(icon: const Icon(Icons.shopping_cart), onPressed: () {}),
+          IconButton(icon: const Icon(Icons.person_outline), onPressed: () {}),
         ],
       ),
       body: Column(
         children: [
-          // Barra de búsqueda
+          // 🔍 Barra de búsqueda
           Padding(
-            padding: const EdgeInsets.all(12.0),
-            child: TextField(
-              decoration: InputDecoration(
-                hintText: 'Buscar productos...',
-                prefixIcon: const Icon(Icons.search),
-                filled: true,
-                fillColor: Colors.grey[850],
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                  borderSide: BorderSide.none,
+            padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8),
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.grey[850],
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: const TextField(
+                style: TextStyle(color: Colors.white),
+                decoration: InputDecoration(
+                  hintText: 'Buscar productos...',
+                  hintStyle: TextStyle(color: Colors.white54),
+                  prefixIcon: Icon(Icons.search, color: Colors.white),
+                  border: InputBorder.none,
+                  contentPadding: EdgeInsets.symmetric(vertical: 14),
                 ),
               ),
             ),
           ),
-          // Grid de productos
+
+          // 🛍️ Productos en cuadrícula
           Expanded(
             child: GridView.builder(
               padding: const EdgeInsets.all(12),
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                mainAxisSpacing: 10,
+                crossAxisCount: 2, // 2 productos por fila
                 crossAxisSpacing: 10,
-                childAspectRatio: 0.7,
+                mainAxisSpacing: 10,
+                childAspectRatio: 0.65,
               ),
               itemCount: products.length,
               itemBuilder: (context, index) {
                 return ProductCard(
                   name: products[index],
-                  price: (index + 1) * 10,
+                  price: (index + 1) * 10.0,
                 );
               },
             ),
