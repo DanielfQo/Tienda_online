@@ -62,10 +62,14 @@ class _LoginPageState extends State<LoginPage> {
               },
               child: const Text('Ingresar'),
             ),
+            const SizedBox(height: 10),
+            TextButton(
+              onPressed: () => context.go(AppRoutes.register),
+              child: const Text('¿No tienes cuenta? Regístrate'),
+            ),
           ],
         ),
       ),
     );
   }
 }
-
