@@ -1,56 +1,74 @@
 import 'package:flutter/material.dart';
+import 'light_color.dart';
 
 class AppTheme {
-  static ThemeData vibrantTheme = ThemeData(
-    brightness: Brightness.light,
-    scaffoldBackgroundColor: const Color(0xFF5D3FD3), // morado brillante
-    primaryColor: const Color(0xFFFBDE7E), // amarillo suave
-    colorScheme: const ColorScheme.light(
-      primary: Color(0xFFFBDE7E),
-      secondary: Color(0xFFFFB6C1),
-      background: Color(0xFF5D3FD3),
-      surface: Colors.white,
-      onPrimary: Colors.black,
-      onSecondary: Colors.black,
-      onBackground: Colors.white,
-      onSurface: Colors.black,
+  const AppTheme();
+
+  static ThemeData lightTheme = ThemeData(
+    scaffoldBackgroundColor: LightColor.background,
+    primaryColor: LightColor.background,
+    colorScheme: const ColorScheme.light().copyWith(
+      primary: LightColor.background,
+      secondary: LightColor.skyBlue,
     ),
+    cardTheme: const CardThemeData(color: LightColor.background),
+    textTheme: const TextTheme(
+      bodyLarge: TextStyle(color: LightColor.black),
+      bodyMedium: TextStyle(color: LightColor.black),
+    ),
+    iconTheme: const IconThemeData(color: LightColor.iconColor),
+    dividerColor: LightColor.lightGrey,
     appBarTheme: const AppBarTheme(
-      backgroundColor: Color(0xFF4A30B3),
       elevation: 0,
+      backgroundColor: LightColor.background,
+      iconTheme: IconThemeData(color: LightColor.iconColor),
       titleTextStyle: TextStyle(
-        color: Colors.white,
+        color: LightColor.titleTextColor,
         fontSize: 20,
         fontWeight: FontWeight.bold,
       ),
-      iconTheme: IconThemeData(color: Colors.white),
     ),
-    cardColor: const Color(0xFFECE6F5),
-    textTheme: const TextTheme(
-      headlineLarge: TextStyle(
-        fontSize: 28,
-        fontWeight: FontWeight.bold,
-        color: Colors.white,
-      ),
-      bodyLarge: TextStyle(fontSize: 16, color: Colors.white),
-      bodyMedium: TextStyle(fontSize: 14, color: Colors.white70),
-    ),
-    elevatedButtonTheme: ElevatedButtonThemeData(
-      style: ElevatedButton.styleFrom(
-        foregroundColor: Colors.black,
-        backgroundColor: Color(0xFFFBDE7E),
-        textStyle: const TextStyle(fontWeight: FontWeight.bold),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      ),
-    ),
-    inputDecorationTheme: InputDecorationTheme(
-      filled: true,
-      fillColor: Colors.white,
-      hintStyle: const TextStyle(color: Colors.grey),
-      border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(24),
-        borderSide: BorderSide.none,
-      ),
+    bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+      backgroundColor: LightColor.background,
+      selectedItemColor: LightColor.orange,
+      unselectedItemColor: LightColor.grey,
     ),
   );
+
+  static TextStyle titleStyle = const TextStyle(
+    color: LightColor.titleTextColor,
+    fontSize: 16,
+  );
+  static TextStyle subTitleStyle = const TextStyle(
+    color: LightColor.subTitleTextColor,
+    fontSize: 12,
+  );
+
+  static TextStyle h1Style = const TextStyle(
+    fontSize: 24,
+    fontWeight: FontWeight.bold,
+  );
+  static TextStyle h2Style = const TextStyle(fontSize: 22);
+  static TextStyle h3Style = const TextStyle(fontSize: 20);
+  static TextStyle h4Style = const TextStyle(fontSize: 18);
+  static TextStyle h5Style = const TextStyle(fontSize: 16);
+  static TextStyle h6Style = const TextStyle(fontSize: 14);
+
+  static List<BoxShadow> shadow = <BoxShadow>[
+    const BoxShadow(color: Color(0xfff8f8f8), blurRadius: 10, spreadRadius: 15),
+  ];
+
+  static EdgeInsets padding = const EdgeInsets.symmetric(
+    horizontal: 20,
+    vertical: 10,
+  );
+  static EdgeInsets hPadding = const EdgeInsets.symmetric(horizontal: 10);
+
+  static double fullWidth(BuildContext context) {
+    return MediaQuery.of(context).size.width;
+  }
+
+  static double fullHeight(BuildContext context) {
+    return MediaQuery.of(context).size.height;
+  }
 }

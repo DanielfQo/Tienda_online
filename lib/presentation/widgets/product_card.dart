@@ -3,66 +3,69 @@ import 'package:flutter/material.dart';
 class ProductCard extends StatelessWidget {
   final String name;
   final double price;
+  final String image;
+  final bool isLiked;
 
-  const ProductCard({super.key, required this.name, required this.price});
+  const ProductCard({
+    super.key,
+    required this.name,
+    required this.price,
+    this.image = '',
+    this.isLiked = false,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Card(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       elevation: 4,
-      margin: const EdgeInsets.all(6),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          // Imagen del producto
-          Expanded(
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.grey[800],
-                borderRadius: const BorderRadius.vertical(
-                  top: Radius.circular(12),
-                ),
+      child: Padding(
+        padding: const EdgeInsets.all(12),
+        child: Stack(
+          children: [
+            // Icono de corazón
+            Positioned(
+              top: 0,
+              right: 0,
+              child: Icon(
+                isLiked ? Icons.favorite : Icons.favorite_border,
+                color: isLiked ? Colors.red : Colors.grey,
               ),
-              child: const Icon(Icons.image, size: 60, color: Colors.white54),
             ),
-          ),
-          // Precio y botón
-          Container(
-            padding: const EdgeInsets.all(8),
-            decoration: const BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.vertical(bottom: Radius.circular(12)),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
+                // Imagen con fondo circular
+                Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    const CircleAvatar(
+                      radius: 45,
+                      backgroundColor: Color(0xFFFFE0B2),
+                    ),
+                    image.isNotEmpty
+                        ? Image.asset(image, height: 60)
+                        : const Icon(Icons.image, size: 60),
+                  ],
+                ),
+                const SizedBox(height: 8),
+                Text(name, style: const TextStyle(fontWeight: FontWeight.bold)),
+                const Text(
+                  'Trending Now',
+                  style: TextStyle(color: Colors.orange, fontSize: 12),
+                ),
+                const SizedBox(height: 4),
                 Text(
                   'S/ ${price.toStringAsFixed(2)}',
                   style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
-                    color: Colors.black87,
                   ),
-                ),
-                const SizedBox(height: 8),
-                ElevatedButton(
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFFFFD86A), // amarillo suave
-                    foregroundColor: Colors.black,
-                    minimumSize: const Size.fromHeight(36),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    elevation: 2,
-                  ),
-                  child: const Text('Agregar'),
                 ),
               ],
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
