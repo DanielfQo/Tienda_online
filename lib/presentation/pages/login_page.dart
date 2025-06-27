@@ -60,12 +60,18 @@ class _LoginPageState extends State<LoginPage> {
                   });
                 }
               },
-              child: const Text('Ingresar'),
+              child: const Text(
+                      'Ingresar',
+                      style: TextStyle(color: Colors.black),
+                      ),
             ),
             const SizedBox(height: 10),
             TextButton(
               onPressed: () => context.go(AppRoutes.register),
-              child: const Text('¿No tienes cuenta? Regístrate'),
+              child: const Text(
+                '¿No tienes cuenta? Regístrate',
+                style: TextStyle(color: Colors.black),
+                ),
             ),
           ],
         ),

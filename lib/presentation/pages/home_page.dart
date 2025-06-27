@@ -50,7 +50,9 @@ class _HomePageState extends State<HomePage> {
             icon: const Icon(Icons.shopping_cart_outlined),
             onPressed: () {},
           ),
-          IconButton(icon: const Icon(Icons.person_outline), onPressed: () {}),
+          IconButton(icon: const Icon(Icons.person_outline), onPressed: () {
+            context.go(AppRoutes.profile);
+          }),
         ],
       ),
       body: Column(

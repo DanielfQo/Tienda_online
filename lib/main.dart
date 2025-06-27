@@ -3,12 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'routes/app_router.dart';
 import 'presentation/providers/auth_provider.dart';
+import 'core/theme/app_theme.dart';
 
 void main() {
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => AuthProvider()),
+        ChangeNotifierProvider(
+          create: (_) => AuthProvider()),
       ],
       child: const MyApp(),
     ),
@@ -24,7 +26,6 @@ class MyApp extends StatelessWidget {
       title: 'Cliente Flutter',
       theme: AppTheme.lightTheme,
       routerConfig: appRouter,
-      title: 'Login con Provider',
       debugShowCheckedModeBanner: false,
     );
   }

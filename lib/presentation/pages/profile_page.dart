@@ -1,23 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 import '../../routes/app_routes.dart';
+import '../providers/auth_provider.dart'; // Asegúrate de importar correctamente
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final authProvider = context.watch<AuthProvider>();
+    final isLoggedIn = authProvider.isLoggedIn;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Perfil'),
         actions: [
-          IconButton(
-            icon: const Icon(Icons.logout),
-            onPressed: () {
-              // Aquí podrías limpiar sesión si fuese necesario
-              context.go(AppRoutes.home);
-            },
-          ),
+          if (isLoggedIn)
+            IconButton(
+              icon: const Icon(Icons.logout),
+              onPressed: () {
+                authProvider.logout();
+                context.go(AppRoutes.home);
+              },
+            ),
         ],
       ),
       body: Padding(
@@ -31,23 +37,37 @@ class ProfilePage extends StatelessWidget {
             ),
             const SizedBox(height: 20),
             Text(
-              'Nombre de Usuario',
+              isLoggedIn ? 'Usuario logueado' : 'No has iniciado sesión',
               style: Theme.of(context).textTheme.headlineSmall,
             ),
             const SizedBox(height: 8),
             Text(
-              'usuario@ejemplo.com',
+              isLoggedIn ? 'user@ejemplo.com' : 'Invitado',
               style: Theme.of(context).textTheme.bodyMedium,
             ),
             const SizedBox(height: 30),
-            ElevatedButton.icon(
-              onPressed: () {
-                // Aquí podrías limpiar sesión si fuese necesario
-                context.go(AppRoutes.home);
-              },
-              icon: const Icon(Icons.logout),
-              label: const Text('Cerrar sesión'),
-            ),
+            isLoggedIn
+                ? ElevatedButton.icon(
+                    onPressed: () {
+                      authProvider.logout();
+                      context.go(AppRoutes.home);
+                    },
+                    icon: const Icon(Icons.logout),
+                    label: const Text(
+                      'Cerrar sesión',
+                      style: TextStyle(color: Colors.black),
+                    ),
+                  )
+                : ElevatedButton.icon(
+                    onPressed: () {
+                      context.go(AppRoutes.login); 
+                    },
+                    icon: const Icon(Icons.login),
+                    label: const Text(
+                      'Iniciar sesión',
+                      style: TextStyle(color: Colors.black),
+                    ),
+                  ),
           ],
         ),
       ),
