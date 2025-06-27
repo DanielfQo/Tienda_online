@@ -21,6 +21,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
+      title: 'Cliente Flutter',
+      theme: AppTheme.lightTheme,
       routerConfig: appRouter,
       title: 'Login con Provider',
       debugShowCheckedModeBanner: false,

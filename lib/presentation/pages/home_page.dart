@@ -11,77 +11,147 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  List<String> products = [];
+  final List<Map<String, dynamic>> allProducts = [
+    {"name": "Botella", "price": 7.0, "oferta": true},
+    {"name": "Juguete", "price": 5.0, "oferta": true},
+    {"name": "Cuaderno", "price": 10.0, "oferta": false},
+    {"name": "Lapicero", "price": 2.5, "oferta": false},
+    {"name": "Gorra", "price": 15.0, "oferta": false},
+    {"name": "Camisa", "price": 25.0, "oferta": false},
+  ];
+
+  final PageController _pageController = PageController(viewportFraction: 0.9);
+  int _currentPage = 0;
 
   @override
-  void initState() {
-    super.initState();
-    loadProducts();
-  }
-
-  void loadProducts() {
-    // Aquí en el futuro llamarías a una API
-    setState(() {
-      products = List.generate(8, (index) => 'Producto ${index + 1}');
-    });
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    final offerProducts = allProducts
+        .where((p) => p['oferta'] == true)
+        .toList();
+    final normalProducts = allProducts
+        .where((p) => p['oferta'] == false)
+        .toList();
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Tienda Online'),
+        title: const Text(
+          "Thunder",
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
         actions: [
-          TextButton(
-            onPressed: () {
-              context.go(AppRoutes.login); // Navega a la pantalla de login
-            },
-            child: const Text(
-              'Iniciar sesión',
-              style: TextStyle(color: Colors.black),
-            ),
-          ),
+          IconButton(icon: const Icon(Icons.favorite_border), onPressed: () {}),
           IconButton(
-            icon: const Icon(Icons.shopping_cart),
-            onPressed: () {
-              // Acción del carrito
-            },
+            icon: const Icon(Icons.shopping_cart_outlined),
+            onPressed: () {},
           ),
+          IconButton(icon: const Icon(Icons.person_outline), onPressed: () {}),
         ],
       ),
       body: Column(
         children: [
-          // Barra de búsqueda
+          // 🔍 Barra de búsqueda
           Padding(
             padding: const EdgeInsets.all(12.0),
             child: TextField(
               decoration: InputDecoration(
                 hintText: 'Buscar productos...',
                 prefixIcon: const Icon(Icons.search),
-                filled: true,
-                fillColor: Colors.grey[850],
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                  borderSide: BorderSide.none,
-                ),
               ),
             ),
           ),
-          // Grid de productos
+
+          // 🏷️ Slider de ofertas
+          if (offerProducts.isNotEmpty)
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Título
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: const [
+                      Text(
+                        'Ofertas',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
+                      Icon(Icons.local_offer, size: 18, color: Colors.white),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 8),
+
+                // Slider tipo PageView
+                SizedBox(
+                  height: 200,
+                  child: PageView.builder(
+                    controller: _pageController,
+                    onPageChanged: (index) {
+                      setState(() => _currentPage = index);
+                    },
+                    itemCount: offerProducts.length,
+                    itemBuilder: (context, index) {
+                      final product = offerProducts[index];
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 6),
+                        child: ProductCard(
+                          name: product['name'],
+                          price: product['price'],
+                        ),
+                      );
+                    },
+                  ),
+                ),
+
+                // Indicador (círculos)
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: List.generate(
+                    offerProducts.length,
+                    (index) => Container(
+                      margin: const EdgeInsets.symmetric(
+                        horizontal: 3,
+                        vertical: 8,
+                      ),
+                      width: 8,
+                      height: 8,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: _currentPage == index
+                            ? Colors.white
+                            : Colors.white30,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+
+          // 🛍️ Grid de productos normales
           Expanded(
             child: GridView.builder(
               padding: const EdgeInsets.all(12),
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
-                mainAxisSpacing: 10,
                 crossAxisSpacing: 10,
-                childAspectRatio: 0.7,
+                mainAxisSpacing: 10,
+                childAspectRatio: 0.65,
               ),
-              itemCount: products.length,
+              itemCount: normalProducts.length,
               itemBuilder: (context, index) {
                 return ProductCard(
-                  name: products[index],
-                  price: (index + 1) * 10,
+                  name: normalProducts[index]['name'],
+                  price: normalProducts[index]['price'],
                 );
               },
             ),
