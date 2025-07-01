@@ -3,6 +3,8 @@ import '../../core/theme/light_color.dart';
 import '../../core/theme/app_theme.dart';
 import '../widgets/product_card.dart';
 import '../widgets/custom_bottom_nav_bar.dart';
+import '../../routes/app_routes.dart';
+import 'package:go_router/go_router.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -38,7 +40,12 @@ class _HomePageState extends State<HomePage> {
           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
         ),
         actions: [
-          IconButton(icon: const Icon(Icons.person_outline), onPressed: () {}),
+          IconButton(
+            icon: const Icon(Icons.person_outline), 
+            onPressed: () {
+              context.go(AppRoutes.profile);
+            },
+          ),
         ],
       ),
       body: SingleChildScrollView(
@@ -76,30 +83,30 @@ class _HomePageState extends State<HomePage> {
 
             const SizedBox(height: 16),
 
-            // 🏷️ Categorías (falsas por ahora)
+            // Categorías (falsas por ahora)
             SizedBox(
               height: 80,
               child: ListView(
                 scrollDirection: Axis.horizontal,
                 children: [
                   _buildCategoryIcon(
-                    'assets/icons/sneakers.png',
+                    Icons.directions_walk,
                     'Sneakers',
                     true,
                   ),
                   _buildCategoryIcon(
-                    'assets/icons/jacket.png',
+                    Icons.checkroom,
                     'Jacket',
                     false,
                   ),
-                  _buildCategoryIcon('assets/icons/watch.png', 'Watch', false),
+                  _buildCategoryIcon(Icons.watch, 'Watch', false),
                 ],
               ),
             ),
 
             const SizedBox(height: 16),
 
-            // 🔄 Slider de productos en oferta
+            // Slider de productos en oferta
             if (ofertas.isNotEmpty)
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -164,7 +171,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget _buildCategoryIcon(String asset, String label, bool selected) {
+  Widget _buildCategoryIcon(IconData icon, String label, bool selected) {
     return Container(
       margin: const EdgeInsets.only(right: 12),
       padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -177,7 +184,7 @@ class _HomePageState extends State<HomePage> {
       ),
       child: Row(
         children: [
-          Image.asset(asset, width: 24, height: 24),
+          Icon(icon, size: 24, color: selected ? LightColor.orange : Colors.black),
           const SizedBox(width: 8),
           Text(label, style: const TextStyle(fontWeight: FontWeight.bold)),
         ],
