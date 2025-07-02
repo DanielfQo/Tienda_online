@@ -24,8 +24,9 @@ class CustomBottomNavBar extends StatelessWidget {
       onTap: onTap,
       items: [
         _buildNavItem(Icons.home, 0),
-        _buildNavItem(Icons.shopping_bag, 1),
-        _buildNavItem(Icons.favorite_border, 2),
+        _buildNavItem(Icons.search, 1),
+        _buildNavItem(Icons.shopping_bag, 2),
+        _buildNavItem(Icons.favorite_border, 3),
       ],
     );
   }
