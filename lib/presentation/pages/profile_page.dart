@@ -28,7 +28,6 @@ class ProfilePage extends StatelessWidget {
   Widget _buildNotLoggedInView(BuildContext context) {
     return Column(
       children: [
-        // 🟦 ZONA SUPERIOR: Imagen decorativa con botón de regreso
         Stack(
           children: [
             Image.asset(
@@ -49,24 +48,18 @@ class ProfilePage extends StatelessWidget {
 
         const SizedBox(height: 30),
 
-        // 🟥 ZONA INFERIOR: Botones
         Padding(
           padding: AppTheme.padding.copyWith(top: 0),
           child: Column(
             children: [
               _authButton(
-                label: 'LOG IN',
-                backgroundColor: const Color.fromARGB(
-                  255,
-                  254,
-                  201,
-                  140,
-                ), // naranja claro #ffd971
+                label: 'INICIA SESIÓN',
+                backgroundColor: const Color.fromARGB(255, 254, 201, 140),
                 onTap: () => context.go(AppRoutes.login),
               ),
               const SizedBox(height: 12),
               _authButton(
-                label: 'SIGN UP',
+                label: 'REGISTRATE',
                 backgroundColor: const Color.fromARGB(255, 254, 169, 70),
                 onTap: () => context.go(AppRoutes.register),
               ),
