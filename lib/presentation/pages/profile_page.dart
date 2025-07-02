@@ -27,7 +27,7 @@ class _ProfilePageState extends State<ProfilePage> {
       appBar: AppBar(
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios, color: Colors.black),
-          onPressed: () => context.pop(),
+          onPressed: () => context.go(AppRoutes.home),
         ),
         elevation: 0,
         title: const Text(''),
