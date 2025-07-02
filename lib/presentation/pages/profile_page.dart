@@ -49,7 +49,7 @@ class ProfilePage extends StatelessWidget {
 
         const SizedBox(height: 30),
 
-        // 🟥 ZONA INFERIOR: Botones
+        // ZONA INFERIOR: Botones
         Padding(
           padding: AppTheme.padding.copyWith(top: 0),
           child: Column(
