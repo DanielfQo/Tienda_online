@@ -16,7 +16,7 @@ class ProfilePage extends StatelessWidget {
     final isLoggedIn = authProvider.isLoggedIn;
 
     return Scaffold(
-      backgroundColor: LightColor.background,
+      backgroundColor: LightColor.backgroundProfile,
       body: SafeArea(
         child: isLoggedIn
             ? _buildLoggedInView(context, authProvider)
@@ -56,11 +56,18 @@ class ProfilePage extends StatelessWidget {
             children: [
               _authButton(
                 label: 'LOG IN',
+                backgroundColor: const Color.fromARGB(
+                  255,
+                  254,
+                  201,
+                  140,
+                ), // naranja claro #ffd971
                 onTap: () => context.go(AppRoutes.login),
               ),
               const SizedBox(height: 12),
               _authButton(
                 label: 'SIGN UP',
+                backgroundColor: const Color.fromARGB(255, 254, 169, 70),
                 onTap: () => context.go(AppRoutes.register),
               ),
             ],
@@ -110,14 +117,18 @@ class ProfilePage extends StatelessWidget {
     );
   }
 
-  Widget _authButton({required String label, required VoidCallback onTap}) {
+  Widget _authButton({
+    required String label,
+    required VoidCallback onTap,
+    Color? backgroundColor,
+  }) {
     return SizedBox(
       width: double.infinity,
       height: 48,
       child: ElevatedButton(
         onPressed: onTap,
         style: ElevatedButton.styleFrom(
-          backgroundColor: LightColor.orange,
+          backgroundColor: backgroundColor ?? LightColor.orange,
           foregroundColor: Colors.white,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(30),
