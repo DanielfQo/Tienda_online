@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../../routes/app_routes.dart';
 import '../widgets/custom_button.dart';
+import '../widgets/custom_text_field.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -69,77 +70,44 @@ class _RegisterPageState extends State<RegisterPage> {
                       key: _formKey,
                       child: Column(
                         children: [
-                          TextFormField(
+                            CustomTextField(
                             controller: _nameController,
-                            decoration: InputDecoration(
-                              labelText: 'Nombre completo',
-                              border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
-                              prefixIcon: const Icon(Icons.person),
-                            ),
-                            validator: (value) =>
-                                value == null || value.isEmpty ? 'Ingrese su nombre' : null,
+                            label: 'Nombre completo',
+                            icon: Icons.person,
+                            validator: (value) => value == null || value.isEmpty ? 'Ingrese su nombre' : null,
                           ),
                           const SizedBox(height: 20),
-                          TextFormField(
+
+                          CustomTextField(
                             controller: _emailController,
-                            decoration: InputDecoration(
-                              labelText: 'Correo electrónico',
-                              border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
-                              prefixIcon: const Icon(Icons.email),
-                            ),
+                            label: 'Correo electrónico',
+                            icon: Icons.email,
                             keyboardType: TextInputType.emailAddress,
-                            validator: (value) => value == null || !value.contains('@')
-                                ? 'Correo inválido'
-                                : null,
+                            validator: (value) =>
+                                value == null || !value.contains('@') ? 'Correo inválido' : null,
                           ),
                           const SizedBox(height: 20),
-                          TextFormField(
+
+                          CustomTextField(
                             controller: _passController,
-                            decoration: InputDecoration(
-                              labelText: 'Contraseña',
-                              border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
-                              prefixIcon: const Icon(Icons.lock),
-                            ),
+                            label: 'Contraseña',
+                            icon: Icons.lock,
                             obscureText: true,
-                            validator: (value) => value != null && value.length < 6
-                                ? 'Mínimo 6 caracteres'
-                                : null,
+                            validator: (value) =>
+                                value != null && value.length < 6 ? 'Mínimo 6 caracteres' : null,
                           ),
                           const SizedBox(height: 20),
-                          TextFormField(
+
+                          CustomTextField(
                             controller: _confirmPassController,
-                            decoration: InputDecoration(
-                              labelText: 'Confirmar contraseña',
-                              border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
-                              prefixIcon: const Icon(Icons.lock_outline),
-                            ),
+                            label: 'Confirmar contraseña',
+                            icon: Icons.lock_outline,
                             obscureText: true,
                             validator: (value) => value != _passController.text
                                 ? 'Las contraseñas no coinciden'
                                 : null,
                           ),
-                          if (_error != null)
-                            Padding(
-                              padding: const EdgeInsets.only(top: 8),
-                              child: Text(
-                                _error!,
-                                style: const TextStyle(color: Colors.red),
-                              ),
-                            ),
-                          const SizedBox(height: 30),
-                          customButton(
-                            text: 'Registrarse',
-                            onPressed: _register,
-                            icon: Icons.person_add_alt_1,
-                          ),
-                          const SizedBox(height: 15),
-                          TextButton(
-                            onPressed: () => context.go(AppRoutes.login),
-                            child: const Text(
-                              '¿Ya tienes una cuenta? Iniciar sesión',
-                              style: TextStyle(color: Colors.black87),
-                            ),
-                          ),
+
                         ],
                       ),
                     ),

@@ -6,6 +6,8 @@ import '../../core/theme/light_color.dart';
 import '../../core/theme/app_theme.dart';
 import '../providers/auth_provider.dart';
 import '../../routes/app_routes.dart';
+import '../widgets/custom_button.dart';
+
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -52,20 +54,22 @@ class ProfilePage extends StatelessWidget {
           padding: AppTheme.padding.copyWith(top: 0),
           child: Column(
             children: [
-              _authButton(
-                label: 'INICIA SESIÓN',
-                backgroundColor: const Color.fromARGB(255, 254, 201, 140),
-                onTap: () => context.go(AppRoutes.login),
+              CustomButton(
+                text: 'INICIA SESIÓN',
+                background: const Color.fromARGB(255, 254, 201, 140),
+                onPressed: () => context.go(AppRoutes.login),
+                icon: Icons.login,
               ),
               const SizedBox(height: 12),
-              _authButton(
-                label: 'REGISTRATE',
-                backgroundColor: const Color.fromARGB(255, 254, 169, 70),
-                onTap: () => context.go(AppRoutes.register),
+              CustomButton(
+                text: 'REGÍSTRATE',
+                onPressed: () => context.go(AppRoutes.register),
+                icon: Icons.person_add,
               ),
             ],
           ),
         ),
+
       ],
     );
   }
@@ -90,47 +94,18 @@ class ProfilePage extends StatelessWidget {
             style: AppTheme.h1Style.copyWith(fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 20),
-          ElevatedButton.icon(
-            onPressed: () {
+          CustomButton(
+            text: 'Cerrar sesión',
+            onPressed: (){
               authProvider.logout();
               context.go(AppRoutes.home);
             },
-            icon: const Icon(Icons.logout),
-            label: const Text('Cerrar sesión'),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: LightColor.orange,
-              foregroundColor: Colors.white,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-            ),
-          ),
+            icon: Icons.logout,
+          )
+
         ],
       ),
     );
   }
 
-  Widget _authButton({
-    required String label,
-    required VoidCallback onTap,
-    Color? backgroundColor,
-  }) {
-    return SizedBox(
-      width: double.infinity,
-      height: 48,
-      child: ElevatedButton(
-        onPressed: onTap,
-        style: ElevatedButton.styleFrom(
-          backgroundColor: backgroundColor ?? LightColor.orange,
-          foregroundColor: Colors.white,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(30),
-          ),
-          elevation: 4,
-          textStyle: const TextStyle(fontWeight: FontWeight.bold),
-        ),
-        child: Text(label.toUpperCase()),
-      ),
-    );
-  }
 }

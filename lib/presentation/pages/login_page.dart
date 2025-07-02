@@ -4,6 +4,7 @@ import '../../routes/app_routes.dart';
 import '../providers/auth_provider.dart';
 import 'package:go_router/go_router.dart';
 import '../widgets/custom_button.dart';
+import '../widgets/custom_text_field.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -69,27 +70,18 @@ class _LoginPageState extends State<LoginPage> {
                       style: TextStyle(fontSize: 16, color: Colors.grey),
                     ),
                     const SizedBox(height: 30),
-                    TextField(
+                    CustomTextField(
                       controller: _userController,
-                      decoration: InputDecoration(
-                        labelText: 'Usuario',
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        prefixIcon: const Icon(Icons.person),
-                      ),
+                      label: 'Usuario',
+                      icon: Icons.person,
+                      validator: (value) =>
+                        value == null || !value.contains('@') ? 'Correo inválido' : null,
                     ),
                     const SizedBox(height: 20),
-                    TextField(
+                    CustomTextField(
                       controller: _passController,
-                      decoration: InputDecoration(
-                        labelText: 'Contraseña',
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        prefixIcon: const Icon(Icons.lock),
-                      ),
-                      obscureText: true,
+                      label: 'Contraseña',
+                      icon: Icons.lock,
                     ),
                     if (_error != null)
                       Padding(
@@ -100,7 +92,7 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                       ),
                     const SizedBox(height: 30),
-                    customButton(
+                    CustomButton(
                       text: 'Ingresar',
                       onPressed: _login,
                       icon: Icons.login,
