@@ -127,22 +127,10 @@ class _RegisterPageState extends State<RegisterPage> {
                               ),
                             ),
                           const SizedBox(height: 30),
-                          SizedBox(
-                            width: double.infinity,
-                            height: 50,
-                            child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.orange,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(16),
-                                ),
-                              ),
-                              onPressed: _register,
-                              child: const Text(
-                                'Registrarse',
-                                style: TextStyle(fontSize: 16, color: Colors.white),
-                              ),
-                            ),
+                          customButton(
+                            text: 'Registrarse',
+                            onPressed: _register,
+                            icon: Icons.person_add_alt_1,
                           ),
                           const SizedBox(height: 15),
                           TextButton(

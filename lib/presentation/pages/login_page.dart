@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import '../../routes/app_routes.dart';
 import '../providers/auth_provider.dart';
 import 'package:go_router/go_router.dart';
+import '../widgets/custom_button.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -16,10 +17,24 @@ class _LoginPageState extends State<LoginPage> {
   final _passController = TextEditingController();
   String? _error;
 
+  void _login() {
+    final username = _userController.text.trim();
+    final password = _passController.text.trim();
+
+    final authProvider = Provider.of<AuthProvider>(context, listen: false);
+    authProvider.login(username, password);
+
+    if (authProvider.isLoggedIn) {
+      context.go(AppRoutes.home);
+    } else {
+      setState(() {
+        _error = 'Usuario o contraseña incorrectos';
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    final authProvider = Provider.of<AuthProvider>(context);
-
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -85,36 +100,12 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                       ),
                     const SizedBox(height: 30),
-                    SizedBox(
-                      width: double.infinity,
-                      height: 50,
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.orange,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(16),
-                          ),
-                        ),
-                        onPressed: () {
-                          final username = _userController.text.trim();
-                          final password = _passController.text.trim();
-
-                          authProvider.login(username, password);
-
-                          if (authProvider.isLoggedIn) {
-                            context.go(AppRoutes.home);
-                          } else {
-                            setState(() {
-                              _error = 'Usuario o contraseña incorrectos';
-                            });
-                          }
-                        },
-                        child: const Text(
-                          'Ingresar',
-                          style: TextStyle(fontSize: 16, color: Colors.white),
-                        ),
-                      ),
+                    customButton(
+                      text: 'Ingresar',
+                      onPressed: _login,
+                      icon: Icons.login,
                     ),
+
                     const SizedBox(height: 15),
                     TextButton(
                       onPressed: () => context.go(AppRoutes.register),
