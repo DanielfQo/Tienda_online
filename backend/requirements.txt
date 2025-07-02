@@ -1,0 +1,8 @@
+Flask>=2.3
+Flask-SQLAlchemy
+Flask-Migrate
+Flask-JWT-Extended
+Flask-Cors
+marshmallow
+marshmallow-sqlalchemy
+python-dotenv
