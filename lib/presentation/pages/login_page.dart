@@ -96,6 +96,7 @@ class _LoginPageState extends State<LoginPage> {
                     const SizedBox(height: 20),
                     CustomTextField(
                       controller: _passController,
+                      obscureText: true,
                       label: 'Contraseña',
                       icon: Icons.lock,
                     ),
