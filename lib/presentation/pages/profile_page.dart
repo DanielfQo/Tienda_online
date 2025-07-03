@@ -7,7 +7,7 @@ import '../../core/theme/app_theme.dart';
 import '../providers/auth_provider.dart';
 import '../../routes/app_routes.dart';
 import '../widgets/custom_button.dart';
-
+import '../widgets/profile_option_tile.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -28,49 +28,51 @@ class ProfilePage extends StatelessWidget {
   }
 
   Widget _buildNotLoggedInView(BuildContext context) {
-    return Column(
-      children: [
-        Stack(
-          children: [
-            Image.asset(
-              'assets/images/background_profile.png',
-              width: double.infinity,
-              fit: BoxFit.fitWidth,
-            ),
-            Positioned(
-              top: 10,
-              left: 10,
-              child: IconButton(
-                icon: const Icon(Icons.arrow_back_ios, color: Colors.black),
-                onPressed: () => context.go(AppRoutes.home),
-              ),
-            ),
-          ],
-        ),
-
-        const SizedBox(height: 30),
-
-        Padding(
-          padding: AppTheme.padding.copyWith(top: 0),
-          child: Column(
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          Stack(
             children: [
-              CustomButton(
-                text: 'INICIA SESIÓN',
-                background: const Color.fromARGB(255, 254, 201, 140),
-                onPressed: () => context.go(AppRoutes.login),
-                icon: Icons.login,
+              Padding(
+                padding: const EdgeInsets.only(top: 40),
+                child: Image.asset(
+                  'assets/images/background_profile.png',
+                  width: double.infinity,
+                  fit: BoxFit.fitWidth,
+                ),
               ),
-              const SizedBox(height: 12),
-              CustomButton(
-                text: 'REGÍSTRATE',
-                onPressed: () => context.go(AppRoutes.register),
-                icon: Icons.person_add,
+              Positioned(
+                top: 10,
+                right: 10,
+                child: IconButton(
+                  icon: const Icon(Icons.close, size: 28, color: Colors.black),
+                  onPressed: () => context.go(AppRoutes.home),
+                ),
               ),
             ],
           ),
-        ),
-
-      ],
+          const SizedBox(height: 30),
+          Padding(
+            padding: AppTheme.padding.copyWith(top: 0),
+            child: Column(
+              children: [
+                CustomButton(
+                  text: 'INICIA SESIÓN',
+                  background: const Color.fromARGB(255, 254, 201, 140),
+                  onPressed: () => context.go(AppRoutes.login),
+                  icon: Icons.login,
+                ),
+                const SizedBox(height: 12),
+                CustomButton(
+                  text: 'REGÍSTRATE',
+                  onPressed: () => context.go(AppRoutes.register),
+                  icon: Icons.person_add,
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 
@@ -78,34 +80,79 @@ class ProfilePage extends StatelessWidget {
     return Padding(
       padding: AppTheme.padding,
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          IconButton(
-            icon: const Icon(Icons.arrow_back_ios, color: Colors.black),
-            onPressed: () => context.go(AppRoutes.home),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'KEVIN ANDRE',
+                style: AppTheme.h1Style.copyWith(fontWeight: FontWeight.bold),
+              ),
+              Row(
+                children: [
+                  IconButton(
+                    icon: const Icon(
+                      Icons.close,
+                      size: 28,
+                      color: Colors.black,
+                    ),
+                    onPressed: () => context.go(AppRoutes.home),
+                  ),
+                ],
+              ),
+            ],
           ),
-          const SizedBox(height: 20),
-          const CircleAvatar(
-            radius: 48,
-            backgroundImage: AssetImage('assets/images/avatar.png'),
+          const SizedBox(height: 10),
+
+          // Opciones
+          Expanded(
+            child: GridView.count(
+              crossAxisCount: 2,
+              crossAxisSpacing: 12,
+              mainAxisSpacing: 12,
+              childAspectRatio: 1.1,
+              children: [
+                ProfileOptionTile(
+                  icon: Icons.person_outline,
+                  title: 'Mi cuenta',
+                  subtitle: 'Datos y configuración',
+                  onTap: () {},
+                ),
+                ProfileOptionTile(
+                  icon: Icons.local_shipping_outlined,
+                  title: 'Historial de pedidos',
+                  subtitle: 'Tus pedidos anteriores y en curso',
+                  onTap: () {},
+                ),
+                ProfileOptionTile(
+                  icon: Icons.location_on_outlined,
+                  title: 'Direcciones',
+                  subtitle: 'Administra tus direcciones',
+                  onTap: () {},
+                ),
+                ProfileOptionTile(
+                  icon: Icons.help_outline,
+                  title: '¿Necesitas ayuda?',
+                  subtitle: 'Soporte y preguntas frecuentes',
+                  onTap: () {},
+                ),
+              ],
+            ),
           ),
-          const SizedBox(height: 12),
-          Text(
-            'KEVIN ANDRE',
-            style: AppTheme.h1Style.copyWith(fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(height: 20),
+
+          // Botón de logout
           CustomButton(
             text: 'Cerrar sesión',
-            onPressed: (){
+            onPressed: () {
               authProvider.logout();
               context.go(AppRoutes.home);
             },
             icon: Icons.logout,
-          )
-
+          ),
+          const SizedBox(height: 10),
         ],
       ),
     );
   }
-
 }
