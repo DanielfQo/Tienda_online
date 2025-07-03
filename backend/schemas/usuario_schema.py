@@ -5,7 +5,7 @@ from models.usuario import Usuario, Cliente, Admin, Empleado
 class UserRegisterSchema(SQLAlchemyAutoSchema):
     class Meta:
         model = Usuario
-        load_instance = True
+        load_instance = False #corregir despues
         include_fk = True
 
     nombre = auto_field(required=True)

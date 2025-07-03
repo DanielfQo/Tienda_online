@@ -22,21 +22,23 @@ class _LoginPageState extends State<LoginPage> {
   final _passController = TextEditingController();
   String? _error;
 
-  void _login() {
-    final username = _userController.text.trim();
-    final password = _passController.text.trim();
+  void _login() async {
+  final username = _userController.text.trim();
+  final password = _passController.text.trim();
 
-    final authProvider = Provider.of<AuthProvider>(context, listen: false);
-    authProvider.login(username, password);
+  final authProvider = Provider.of<AuthProvider>(context, listen: false);
+  await authProvider.login(username, password);
 
-    if (authProvider.isLoggedIn) {
+  if (authProvider.isLoggedIn) {
+    if (mounted) {
       context.go(AppRoutes.home);
-    } else {
-      setState(() {
-        _error = 'Usuario o contraseña incorrectos';
-      });
     }
+  } else {
+    setState(() {
+      _error = 'Usuario o contraseña incorrectos';
+    });
   }
+}
 
   @override
   Widget build(BuildContext context) {
