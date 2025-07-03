@@ -163,7 +163,7 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
 
-      // 🔽 Barra inferior
+      // Barra inferior
       bottomNavigationBar: CustomBottomNavBar(
         currentIndex: _currentIndex,
         onTap: (i) => setState(() => _currentIndex = i),
