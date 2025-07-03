@@ -1,4 +1,5 @@
 from extensions import db
+from models.usuario import Cliente
 
 class Venta(db.Model):
     __tablename__ = 'ventas'
@@ -21,5 +22,3 @@ class DetalleVenta(db.Model):
     cantidad = db.Column(db.Integer, nullable=False)
     
     precio_unitario = db.Column(db.DECIMAL(10, 2), nullable=False)
-
-    producto = db.relationship("Producto", backref="detalles_venta")

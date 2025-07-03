@@ -1,4 +1,5 @@
 from extensions import db
+from models.venta import DetalleVenta
 from datetime import datetime
 
 class Categoria(db.Model):
