@@ -97,7 +97,7 @@ class OrderHistoryPage extends StatelessWidget {
                       if (isNewMonth)
                         Container(
                           width: double.infinity,
-                          color: Colors.grey.shade300,
+                          color: const Color.fromARGB(255, 254, 201, 140),
                           padding: const EdgeInsets.symmetric(
                             horizontal: 8,
                             vertical: 4,

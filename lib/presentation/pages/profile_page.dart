@@ -129,7 +129,7 @@ class ProfilePage extends StatelessWidget {
                   icon: Icons.location_on_outlined,
                   title: 'Direcciones',
                   subtitle: 'Administra tus direcciones',
-                  onTap: () {},
+                  onTap: () => context.go(AppRoutes.addressBook),
                 ),
                 ProfileOptionTile(
                   icon: Icons.help_outline,

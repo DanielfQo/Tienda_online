@@ -5,4 +5,5 @@ class AppRoutes {
   static const String profile = '/perfil';
   static const String account = '/mi-cuenta';
   static const String orderHistory = '/pedidos';
+  static const String addressBook = '/addresses';
 }
