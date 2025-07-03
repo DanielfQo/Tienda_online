@@ -24,6 +24,13 @@ def ajustar_stock(producto, nuevo_stock):
     db.session.commit()
     return producto
 
+def aumentar_stock(producto, cantidad):
+    if cantidad <= 0:
+        raise ValueError("La cantidad debe ser mayor que cero.")
+    producto.stock += cantidad
+    db.session.commit()
+    return producto
+
 def actualizar_producto(producto, data):
     #actualizar stock, depende de la db
     for key, value in data.items():
