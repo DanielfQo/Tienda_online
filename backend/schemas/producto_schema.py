@@ -1,7 +1,7 @@
 # backend/schemas/producto_schema.py
 from marshmallow import fields
 from marshmallow_sqlalchemy import SQLAlchemyAutoSchema, auto_field
-from models.producto import Producto, ValorProducto
+from models.producto import Producto, ValorProducto, ImagenProducto
 from models.venta import DetalleVenta
 
 class ValorProductoSchema(SQLAlchemyAutoSchema):
@@ -29,6 +29,16 @@ class DetalleVentaSchema(SQLAlchemyAutoSchema):
     cantidad = auto_field(required=True)
     precio_unitario = auto_field(required=True)
 
+class ImagenProductoSchema(SQLAlchemyAutoSchema):
+    class Meta:
+        model = ImagenProducto
+        load_instance = True
+        include_fk = True
+
+    id = auto_field(dump_only=True)
+    producto_id = auto_field()
+    url = auto_field()
+
 class ProductoCreateSchema(SQLAlchemyAutoSchema):
 
     class Meta:
@@ -49,3 +59,4 @@ class ProductoSchema(ProductoCreateSchema):
 
     valores = fields.Nested(ValorProductoSchema, many=True, dump_only=True)
     detalles_venta = fields.Nested(DetalleVentaSchema, many=True, dump_only=True)
+    imagenes = fields.Nested(ImagenProductoSchema, many=True, dump_only=True)
