@@ -5,6 +5,7 @@ import '../providers/auth_provider.dart';
 import 'package:go_router/go_router.dart';
 import '../widgets/custom_button.dart';
 import '../widgets/custom_text_field.dart';
+import '../../core/theme/light_color.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -37,25 +38,31 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: LightColor.backgroundProfile,
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 24),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              /// Botón de retroceso
-              IconButton(
-                icon: const Icon(Icons.arrow_back, color: Colors.black),
-                onPressed: () => context.go(AppRoutes.profile),
+              Align(
+                alignment: Alignment.topRight,
+                child: IconButton(
+                  icon: const Icon(Icons.close, color: Colors.black, size: 28),
+                  onPressed: () => context.go(AppRoutes.profile),
+                ),
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 10),
 
-              /// Contenido centrado
+              // Contenido centrado
               Center(
                 child: Column(
                   children: [
-                    const Icon(Icons.lock_outline, size: 80, color: Colors.orange),
+                    const Icon(
+                      Icons.lock_outline,
+                      size: 80,
+                      color: Colors.orange,
+                    ),
                     const SizedBox(height: 20),
                     const Text(
                       'Bienvenido',
@@ -75,7 +82,9 @@ class _LoginPageState extends State<LoginPage> {
                       label: 'Usuario',
                       icon: Icons.person,
                       validator: (value) =>
-                        value == null || !value.contains('@') ? 'Correo inválido' : null,
+                          value == null || !value.contains('@')
+                          ? 'Correo inválido'
+                          : null,
                     ),
                     const SizedBox(height: 20),
                     CustomTextField(
@@ -97,7 +106,6 @@ class _LoginPageState extends State<LoginPage> {
                       onPressed: _login,
                       icon: Icons.login,
                     ),
-
                     const SizedBox(height: 15),
                     TextButton(
                       onPressed: () => context.go(AppRoutes.register),
