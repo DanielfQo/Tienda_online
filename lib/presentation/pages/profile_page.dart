@@ -88,10 +88,6 @@ class ProfilePage extends StatelessWidget {
               Row(
                 children: [
                   IconButton(
-                    icon: const Icon(Icons.settings),
-                    onPressed: () {}, // a futuro: configuración
-                  ),
-                  IconButton(
                     icon: const Icon(
                       Icons.close,
                       size: 28,
