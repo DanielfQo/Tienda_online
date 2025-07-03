@@ -117,7 +117,7 @@ class ProfilePage extends StatelessWidget {
                   icon: Icons.person_outline,
                   title: 'Mi cuenta',
                   subtitle: 'Datos y configuración',
-                  onTap: () {},
+                  onTap: () => context.go(AppRoutes.account),
                 ),
                 ProfileOptionTile(
                   icon: Icons.local_shipping_outlined,
