@@ -28,49 +28,51 @@ class ProfilePage extends StatelessWidget {
   }
 
   Widget _buildNotLoggedInView(BuildContext context) {
-    return Column(
-      children: [
-        Stack(
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(top: 40),
-              child: Image.asset(
-                'assets/images/background_profile.png',
-                width: double.infinity,
-                fit: BoxFit.fitWidth,
-              ),
-            ),
-            Positioned(
-              top: 10,
-              right: 10,
-              child: IconButton(
-                icon: const Icon(Icons.close, size: 28, color: Colors.black),
-                onPressed: () => context.go(AppRoutes.home),
-              ),
-            ),
-          ],
-        ),
-        const SizedBox(height: 30),
-        Padding(
-          padding: AppTheme.padding.copyWith(top: 0),
-          child: Column(
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          Stack(
             children: [
-              CustomButton(
-                text: 'INICIA SESIÓN',
-                background: const Color.fromARGB(255, 254, 201, 140),
-                onPressed: () => context.go(AppRoutes.login),
-                icon: Icons.login,
+              Padding(
+                padding: const EdgeInsets.only(top: 40),
+                child: Image.asset(
+                  'assets/images/background_profile.png',
+                  width: double.infinity,
+                  fit: BoxFit.fitWidth,
+                ),
               ),
-              const SizedBox(height: 12),
-              CustomButton(
-                text: 'REGÍSTRATE',
-                onPressed: () => context.go(AppRoutes.register),
-                icon: Icons.person_add,
+              Positioned(
+                top: 10,
+                right: 10,
+                child: IconButton(
+                  icon: const Icon(Icons.close, size: 28, color: Colors.black),
+                  onPressed: () => context.go(AppRoutes.home),
+                ),
               ),
             ],
           ),
-        ),
-      ],
+          const SizedBox(height: 30),
+          Padding(
+            padding: AppTheme.padding.copyWith(top: 0),
+            child: Column(
+              children: [
+                CustomButton(
+                  text: 'INICIA SESIÓN',
+                  background: const Color.fromARGB(255, 254, 201, 140),
+                  onPressed: () => context.go(AppRoutes.login),
+                  icon: Icons.login,
+                ),
+                const SizedBox(height: 12),
+                CustomButton(
+                  text: 'REGÍSTRATE',
+                  onPressed: () => context.go(AppRoutes.register),
+                  icon: Icons.person_add,
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 
