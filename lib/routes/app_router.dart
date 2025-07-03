@@ -6,6 +6,7 @@ import '../presentation/pages/login_page.dart';
 import '../presentation/pages/register_page.dart';
 import '../presentation/pages/profile_page.dart';
 import '../presentation/pages/account_page.dart';
+import '../presentation/pages/order_history_page.dart';
 
 final GoRouter appRouter = GoRouter(
   initialLocation: AppRoutes.home,
@@ -29,6 +30,10 @@ final GoRouter appRouter = GoRouter(
     GoRoute(
       path: AppRoutes.account,
       builder: (context, state) => const AccountPage(),
+    ),
+    GoRoute(
+      path: AppRoutes.orderHistory,
+      builder: (context, state) => const OrderHistoryPage(),
     ),
   ],
 );
