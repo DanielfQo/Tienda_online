@@ -43,10 +43,12 @@ class _RegisterPageState extends State<RegisterPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              /// Botón atrás
-              IconButton(
-                icon: const Icon(Icons.arrow_back, color: Colors.black),
-                onPressed: () => context.go(AppRoutes.profile),
+              Align(
+                alignment: Alignment.topRight,
+                child: IconButton(
+                  icon: const Icon(Icons.close, color: Colors.black, size: 28),
+                  onPressed: () => context.go(AppRoutes.profile),
+                ),
               ),
               const SizedBox(height: 10),
 
@@ -54,11 +56,18 @@ class _RegisterPageState extends State<RegisterPage> {
               Center(
                 child: Column(
                   children: [
-                    const Icon(Icons.person_add_alt_1, size: 80, color: Colors.orange),
+                    const Icon(
+                      Icons.person_add_alt_1,
+                      size: 80,
+                      color: Colors.orange,
+                    ),
                     const SizedBox(height: 20),
                     const Text(
                       'Crear cuenta',
-                      style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                        fontSize: 28,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     const SizedBox(height: 10),
                     const Text(
@@ -70,34 +79,37 @@ class _RegisterPageState extends State<RegisterPage> {
                       key: _formKey,
                       child: Column(
                         children: [
-                            CustomTextField(
+                          CustomTextField(
                             controller: _nameController,
                             label: 'Nombre completo',
                             icon: Icons.person,
-                            validator: (value) => value == null || value.isEmpty ? 'Ingrese su nombre' : null,
+                            validator: (value) => value == null || value.isEmpty
+                                ? 'Ingrese su nombre'
+                                : null,
                           ),
                           const SizedBox(height: 20),
-
                           CustomTextField(
                             controller: _emailController,
                             label: 'Correo electrónico',
                             icon: Icons.email,
                             keyboardType: TextInputType.emailAddress,
                             validator: (value) =>
-                                value == null || !value.contains('@') ? 'Correo inválido' : null,
+                                value == null || !value.contains('@')
+                                ? 'Correo inválido'
+                                : null,
                           ),
                           const SizedBox(height: 20),
-
                           CustomTextField(
                             controller: _passController,
                             label: 'Contraseña',
                             icon: Icons.lock,
                             obscureText: true,
                             validator: (value) =>
-                                value != null && value.length < 6 ? 'Mínimo 6 caracteres' : null,
+                                value != null && value.length < 6
+                                ? 'Mínimo 6 caracteres'
+                                : null,
                           ),
                           const SizedBox(height: 20),
-
                           CustomTextField(
                             controller: _confirmPassController,
                             label: 'Confirmar contraseña',
@@ -107,7 +119,12 @@ class _RegisterPageState extends State<RegisterPage> {
                                 ? 'Las contraseñas no coinciden'
                                 : null,
                           ),
-
+                          const SizedBox(height: 30),
+                          CustomButton(
+                            text: 'Registrarse',
+                            onPressed: _register,
+                            icon: Icons.person_add,
+                          ),
                         ],
                       ),
                     ),
@@ -121,4 +138,3 @@ class _RegisterPageState extends State<RegisterPage> {
     );
   }
 }
-

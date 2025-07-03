@@ -32,10 +32,13 @@ class ProfilePage extends StatelessWidget {
       children: [
         Stack(
           children: [
-            Image.asset(
-              'assets/images/background_profile.png',
-              width: double.infinity,
-              fit: BoxFit.fitWidth,
+            Padding(
+              padding: const EdgeInsets.only(top: 40),
+              child: Image.asset(
+                'assets/images/background_profile.png',
+                width: double.infinity,
+                fit: BoxFit.fitWidth,
+              ),
             ),
             Positioned(
               top: 10,
@@ -77,7 +80,6 @@ class ProfilePage extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Cabecera con nombre y botón de cerrar (X)
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
