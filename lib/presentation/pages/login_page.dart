@@ -23,25 +23,27 @@ class _LoginPageState extends State<LoginPage> {
   String? _error;
 
   void _login() async {
-  final username = _userController.text.trim();
-  final password = _passController.text.trim();
+    final username = _userController.text.trim();
+    final password = _passController.text.trim();
 
-  final authProvider = Provider.of<AuthProvider>(context, listen: false);
-  await authProvider.login(username, password);
+    final authProvider = Provider.of<AuthProvider>(context, listen: false);
+    final success = await authProvider.login(username, password);
 
-  if (authProvider.isLoggedIn) {
-    if (mounted) {
+    if (!mounted) return;
+
+    if (success) {
       context.go(AppRoutes.home);
+    } else {
+      setState(() {
+        _error = authProvider.errorMessage ?? 'Usuario o contraseña incorrectos';
+      });
     }
-  } else {
-    setState(() {
-      _error = 'Usuario o contraseña incorrectos';
-    });
   }
-}
 
   @override
   Widget build(BuildContext context) {
+    final isLoading = context.watch<AuthProvider>().isLoading;
+    
     return Scaffold(
       backgroundColor: LightColor.backgroundProfile,
       body: SafeArea(
@@ -106,11 +108,13 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                       ),
                     const SizedBox(height: 30),
-                    CustomButton(
-                      text: 'Ingresar',
-                      onPressed: _login,
-                      icon: Icons.login,
-                    ),
+                    isLoading
+                    ? const CircularProgressIndicator()
+                    : CustomButton(
+                        text: 'Ingresar',
+                        onPressed: _login,
+                        icon: Icons.login,
+                      ),
                     const SizedBox(height: 15),
                     TextButton(
                       onPressed: () => context.go(AppRoutes.register),

@@ -1,74 +1,91 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+import '../../domain/usecases/login_user.dart';
+import '../../domain/usecases/register_user.dart';
 
 class AuthProvider extends ChangeNotifier {
+  final LoginUser _loginUser;
+  final RegisterUser _registerUser;
+
+  AuthProvider(this._loginUser, this._registerUser);
+
   bool _isLoggedIn = false;
+  bool _isLoading = false;
   String? _token;
+  String? _errorMessage;
 
   bool get isLoggedIn => _isLoggedIn;
+  bool get isLoading => _isLoading;
   String? get token => _token;
+  String? get errorMessage => _errorMessage;
 
-  /// Método de login
-  Future<void> login(String username, String password) async {
-    final url = Uri.parse('http://10.0.2.2:5000/api/usuarios/login');
-
-    try {
-      final response = await http.post(
-        url,
-        headers: {'Content-Type': 'application/json'},
-        body: jsonEncode({
-          'correo': username,
-          'contrasena': password,
-        }),
-      );
-
-      if (response.statusCode == 200) {
-        final data = jsonDecode(response.body);
-        _token = data['access_token'];
-        _isLoggedIn = true;
-      } else {
-        _isLoggedIn = false;
-        _token = null;
-      }
-    } catch (e) {
-      _isLoggedIn = false;
-      _token = null;
-    }
-
+  void _setLoading(bool value) {
+    _isLoading = value;
     notifyListeners();
   }
 
-  /// Método de registro
+  void _setError(String? message) {
+    _errorMessage = message;
+    notifyListeners();
+  }
+
+  /// Iniciar sesión usando el caso de uso
+  Future<bool> login(String email, String password) async {
+    _setLoading(true);
+    _setError(null);
+
+    try {
+      final result = await _loginUser(email, password);
+      if (result != null) {
+        _token = result;
+        _isLoggedIn = true;
+        _setLoading(false);
+        return true;
+      } else {
+        _setError('Credenciales incorrectas');
+      }
+    } catch (e) {
+      _setError('Error de red. Intenta más tarde.');
+    }
+
+    _isLoggedIn = false;
+    _token = null;
+    _setLoading(false);
+    return false;
+  }
+
+  /// Registro usando el caso de uso
   Future<bool> register({
-    required String nombre,
-    required String correo,
-    required String contrasena,
+    required String name,
+    required String email,
+    required String password,
     String rol = 'cliente',
     int? tiendaId,
   }) async {
-    final url = Uri.parse('http://10.0.2.2:5000/api/usuarios/registro');
+    _setLoading(true);
+    _setError(null);
 
     try {
-      final response = await http.post(
-        url,
-        headers: {'Content-Type': 'application/json'},
-        body: jsonEncode({
-          'nombre': nombre,
-          'correo': correo,
-          'contrasena': contrasena,
-          'rol': rol,
-          'tienda_id': tiendaId, // puede ser null
-        }),
+      final success = await _registerUser(
+        name,
+        email,
+        password,
+        rol,
+        tiendaId,
       );
 
-      return response.statusCode == 201;
+      if (!success) {
+        _setError('No se pudo registrar el usuario');
+      }
+
+      _setLoading(false);
+      return success;
     } catch (e) {
+      _setError('Error de red. Intenta más tarde.');
+      _setLoading(false);
       return false;
     }
   }
 
-  /// Método para cerrar sesión
   void logout() {
     _isLoggedIn = false;
     _token = null;
