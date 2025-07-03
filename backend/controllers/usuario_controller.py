@@ -16,7 +16,7 @@ usuario_bp = Blueprint("usuarios", __name__, url_prefix="/api/usuarios")
 def registro():
     data = UserRegisterSchema().load(request.json)
     nuevo = registrar_usuario(data)
-    return UsuarioSchema().jsonify(nuevo), 201
+    return jsonify(UsuarioSchema().dump(nuevo)), 201
 
 
 @usuario_bp.route("/login", methods=["POST"])

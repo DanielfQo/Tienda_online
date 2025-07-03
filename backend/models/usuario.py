@@ -6,7 +6,7 @@ class Usuario(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     nombre = db.Column(db.String(100), nullable=False)
     correo = db.Column(db.String(120), unique=True, nullable=False)
-    contrasena_hash = db.Column(db.String(255), nullable=False)  # Aquí se guarda el hash de la contraseña
+    contrasena = db.Column(db.String(255), nullable=False)  # Aquí se guarda el hash de la contraseña
     rol = db.Column(db.Enum('cliente', 'admin', 'empleado', name='rol_enum'), nullable=False)
     verificado = db.Column(db.Boolean, default=False)
     tienda_id = db.Column(db.Integer, db.ForeignKey('tiendas.id'))

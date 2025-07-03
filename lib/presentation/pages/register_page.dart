@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
+import '../providers/auth_provider.dart';
 import '../../routes/app_routes.dart';
 import '../widgets/custom_button.dart';
 import '../widgets/custom_text_field.dart';
 import '../../core/theme/light_color.dart';
+
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -21,18 +24,35 @@ class _RegisterPageState extends State<RegisterPage> {
 
   String? _error;
 
-  void _register() {
+  void _register() async {
     if (_formKey.currentState!.validate()) {
       final name = _nameController.text.trim();
       final email = _emailController.text.trim();
       final password = _passController.text.trim();
 
-      // Simulación de registro exitoso
-      print('Registrando: $name - $email');
+      final authProvider = Provider.of<AuthProvider>(context, listen: false);
+      final success = await authProvider.register(
+        nombre: name,
+        correo: email,
+        contrasena: password,
+        rol: "cliente", 
+      );
 
-      context.go(AppRoutes.home);
+      if (success) {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text("Registro exitoso. Ahora inicia sesión.")),
+          );
+          context.go(AppRoutes.login);
+        }
+      } else {
+        setState(() {
+          _error = "No se pudo registrar el usuario. Intente de nuevo.";
+        });
+      }
     }
   }
+
 
   @override
   Widget build(BuildContext context) {
