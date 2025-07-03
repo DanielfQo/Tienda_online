@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import '../../core/theme/light_color.dart';
+import '../../core/theme/app_theme.dart';
+
 import '../../routes/app_routes.dart';
 import '../providers/auth_provider.dart';
 import 'package:go_router/go_router.dart';
 import '../widgets/custom_button.dart';
 import '../widgets/custom_text_field.dart';
-import '../../core/theme/light_color.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -41,7 +44,7 @@ class _LoginPageState extends State<LoginPage> {
       backgroundColor: LightColor.backgroundProfile,
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 24),
+          padding: AppTheme.padding,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

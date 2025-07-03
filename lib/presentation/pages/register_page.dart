@@ -4,6 +4,7 @@ import '../../routes/app_routes.dart';
 import '../widgets/custom_button.dart';
 import '../widgets/custom_text_field.dart';
 import '../../core/theme/light_color.dart';
+import '../../core/theme/app_theme.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -40,7 +41,7 @@ class _RegisterPageState extends State<RegisterPage> {
       backgroundColor: LightColor.backgroundProfile,
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 24),
+          padding: AppTheme.padding,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
