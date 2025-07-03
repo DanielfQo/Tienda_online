@@ -120,3 +120,4 @@ app.*.symbols
 
 # Backend 
 backend/venv/
+.env
