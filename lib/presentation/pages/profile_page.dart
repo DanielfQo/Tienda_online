@@ -123,13 +123,13 @@ class ProfilePage extends StatelessWidget {
                   icon: Icons.local_shipping_outlined,
                   title: 'Historial de pedidos',
                   subtitle: 'Tus pedidos anteriores y en curso',
-                  onTap: () {},
+                  onTap: () => context.go(AppRoutes.orderHistory),
                 ),
                 ProfileOptionTile(
                   icon: Icons.location_on_outlined,
                   title: 'Direcciones',
                   subtitle: 'Administra tus direcciones',
-                  onTap: () {},
+                  onTap: () => context.go(AppRoutes.addressBook),
                 ),
                 ProfileOptionTile(
                   icon: Icons.help_outline,
