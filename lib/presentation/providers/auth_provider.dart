@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../domain/usecases/login_user.dart';
 import '../../domain/usecases/register_user.dart';
+import '../../domain/entities/user.dart';
 
 class AuthProvider extends ChangeNotifier {
   final LoginUser _loginUser;
@@ -11,11 +12,13 @@ class AuthProvider extends ChangeNotifier {
   bool _isLoggedIn = false;
   bool _isLoading = false;
   String? _token;
+  User? _user;
   String? _errorMessage;
 
   bool get isLoggedIn => _isLoggedIn;
   bool get isLoading => _isLoading;
   String? get token => _token;
+  User? get user => _user;
   String? get errorMessage => _errorMessage;
 
   void _setLoading(bool value) {
@@ -28,32 +31,30 @@ class AuthProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  /// Iniciar sesión usando el caso de uso
+
   Future<bool> login(String email, String password) async {
     _setLoading(true);
     _setError(null);
 
     try {
-      final result = await _loginUser(email, password);
-      if (result != null) {
-        _token = result;
-        _isLoggedIn = true;
-        _setLoading(false);
-        return true;
-      } else {
-        _setError('Credenciales incorrectas');
-      }
+      final (token, user) = await _loginUser(email, password);
+      _token = token;
+      _user = user;
+      _isLoggedIn = true;
+      _setLoading(false);
+      return true;
     } catch (e) {
-      _setError('Error de red. Intenta más tarde.');
+      _setError('Error de red o credenciales invalidas');
     }
 
     _isLoggedIn = false;
     _token = null;
+    _user = null;
     _setLoading(false);
     return false;
   }
 
-  /// Registro usando el caso de uso
+
   Future<bool> register({
     required String name,
     required String email,
@@ -65,22 +66,12 @@ class AuthProvider extends ChangeNotifier {
     _setError(null);
 
     try {
-      final success = await _registerUser(
-        name,
-        email,
-        password,
-        rol,
-        tiendaId,
-      );
-
-      if (!success) {
-        _setError('No se pudo registrar el usuario');
-      }
-
+      final user = await _registerUser(name, email, password, rol, tiendaId);
+      _user = user;
       _setLoading(false);
-      return success;
+      return true;
     } catch (e) {
-      _setError('Error de red. Intenta más tarde.');
+      _setError('No se pudo registrar el usuario');
       _setLoading(false);
       return false;
     }
@@ -89,6 +80,7 @@ class AuthProvider extends ChangeNotifier {
   void logout() {
     _isLoggedIn = false;
     _token = null;
+    _user = null;
     notifyListeners();
   }
 }

@@ -1,3 +1,4 @@
+import '../entities/user.dart';
 import '../repositories/auth_repository.dart';
 
 class RegisterUser {
@@ -5,13 +6,19 @@ class RegisterUser {
 
   RegisterUser(this.repository);
 
-  Future<bool> call(
+  Future<User> call(
     String name,
     String email,
     String password, [
     String rol = 'cliente',
     int? tiendaId,
   ]) {
-    return repository.register(name, email, password, rol: rol, tiendaId: tiendaId);
+    return repository.register(
+      name,
+      email,
+      password,
+      rol,
+      tiendaId,
+    );
   }
 }
