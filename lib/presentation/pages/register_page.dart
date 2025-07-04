@@ -44,7 +44,10 @@ class _RegisterPageState extends State<RegisterPage> {
 
       if (success) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text("Registro exitoso. Ahora inicia sesión.")),
+            const SnackBar(
+            content: Text("Registro exitoso. Ahora inicia sesión."),
+            duration: Duration(seconds: 3),
+            ),
         );
         context.go(AppRoutes.login);
       } else {
