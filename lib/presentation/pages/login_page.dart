@@ -18,8 +18,9 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final _userController = TextEditingController();
-  final _passController = TextEditingController();
+  final _userController = TextEditingController(text: 'daniel@correo.com');
+  final _passController = TextEditingController(text: '123456'); //iniciar sesion rapido
+
   String? _error;
 
   void _login() async {

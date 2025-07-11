@@ -38,7 +38,7 @@ class AuthProvider extends ChangeNotifier {
 
     try {
       final (token, user) = await _loginUser(email, password);
-      _token = token;
+      _token = token; //guardar el token
       _user = user;
       _isLoggedIn = true;
       _setLoading(false);

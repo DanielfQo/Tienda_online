@@ -137,7 +137,7 @@ class _HomePageState extends State<HomePage> {
 
             const SizedBox(height: 20),
 
-            // 🛍️ Grid de productos
+            // Grid de productos
             GridView.builder(
               physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
@@ -163,11 +163,6 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
 
-      // Barra inferior
-      bottomNavigationBar: CustomBottomNavBar(
-        currentIndex: _currentIndex,
-        onTap: (i) => setState(() => _currentIndex = i),
-      ),
     );
   }
 
