@@ -1,6 +1,6 @@
 from marshmallow import fields
 from marshmallow_sqlalchemy import SQLAlchemyAutoSchema, auto_field
-from models.usuario import Usuario, Cliente, Admin, Empleado
+from backend.models.user import Usuario, Cliente, Admin, Empleado
 
 class UserRegisterSchema(SQLAlchemyAutoSchema):
     class Meta:

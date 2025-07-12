@@ -1,8 +1,8 @@
 # backend/schemas/producto_schema.py
 from marshmallow import fields
 from marshmallow_sqlalchemy import SQLAlchemyAutoSchema, auto_field
-from models.producto import Producto, ValorProducto, ImagenProducto
-from models.venta import DetalleVenta
+from backend.models.product import Producto, ValorProducto, ImagenProducto
+from backend.models.sale import DetalleVenta
 
 class ValorProductoSchema(SQLAlchemyAutoSchema):
     class Meta:

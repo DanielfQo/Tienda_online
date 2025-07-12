@@ -1,5 +1,5 @@
 from extensions import db
-from models.producto import Producto
+from backend.models.product import Producto
 
 def listar_productos():
     # Traer primero productos con stock = 0 (sin disponibilidad)

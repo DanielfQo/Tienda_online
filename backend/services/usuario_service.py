@@ -1,5 +1,5 @@
 from extensions import db
-from models.usuario import Usuario
+from backend.models.user import Usuario
 from werkzeug.security import generate_password_hash
 
 def registrar_usuario(data):
