@@ -121,5 +121,6 @@ app.*.symbols
 # Backend 
 backend/venv/
 
-# .env files
+
 .env
+venv/

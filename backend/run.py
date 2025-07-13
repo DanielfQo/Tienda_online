@@ -1,8 +1,8 @@
 from flask import Flask
 from extensions import db, migrate, jwt, cors
 from config import Config
-from controllers.producto_controller import producto_bp
-from controllers.usuario_controller import usuario_bp 
+from backend.controllers.product_controller import producto_bp
+from backend.controllers.user_controller import usuario_bp 
 import models 
 
 def create_app():
