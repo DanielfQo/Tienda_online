@@ -1,4 +1,4 @@
-from extensions import db
+from backend.extensions import db
 from backend.models.product import Product
 
 def list_products():

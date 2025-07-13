@@ -63,4 +63,4 @@ class EmployeeSchema(SQLAlchemyAutoSchema):
 
     user_id = auto_field()
     position = auto_field()
-    hire_date = auto_field()
+    hired_at = auto_field()

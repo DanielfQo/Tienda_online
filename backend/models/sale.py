@@ -1,5 +1,5 @@
-from extensions import db
-from models.user import Client
+from backend.extensions import db
+from backend.models.user import Client
 
 class Sale(db.Model):
     __tablename__ = 'sales'

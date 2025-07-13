@@ -1,9 +1,9 @@
 from flask import Flask
-from extensions import db, migrate, jwt, cors
-from config import Config
-from backend.controllers.product_controller import producto_bp
-from backend.controllers.user_controller import usuario_bp 
-import models 
+from backend.extensions import db, migrate, jwt, cors
+from backend.config import Config
+from backend.controllers.product_controller import product_bp
+from backend.controllers.user_controller import user_bp 
+import backend.models 
 
 def create_app():
     app = Flask(__name__)
@@ -14,14 +14,13 @@ def create_app():
     jwt.init_app(app)
     cors.init_app(app)
 
-    app.register_blueprint(producto_bp, url_prefix='/api/productos')
-    app.register_blueprint(usuario_bp)  # Registro
+    app.register_blueprint(product_bp, url_prefix='/api/product')
+    app.register_blueprint(user_bp)  # Registro
+
     return app
 
-if __name__ == "__main__":
-    app = create_app()
+app = create_app()
 
-    with app.app_context():
-        db.create_all()
+if __name__ == "__main__":
 
     app.run(debug=True)

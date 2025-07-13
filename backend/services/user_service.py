@@ -1,4 +1,4 @@
-from extensions import db
+from backend.extensions import db
 from backend.models.user import User
 from werkzeug.security import generate_password_hash
 
