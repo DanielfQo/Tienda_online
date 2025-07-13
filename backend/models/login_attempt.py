@@ -1,4 +1,4 @@
-from extensions import db
+from backend.extensions import db
 
 class LoginAttempt(db.Model):
     __tablename__ = 'login_attempts'
