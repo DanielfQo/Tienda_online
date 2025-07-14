@@ -1,5 +1,6 @@
 from backend.extensions import db
-from backend.models.product import Product
+from backend.models.product import Product, ProductDiscount
+from datetime import datetime
 
 def list_products():
     out_of_stock = Product.query.filter(Product.stock == 0).all()
@@ -22,7 +23,7 @@ def adjust_stock(product, new_stock):
 
 def increase_stock(product, amount):
     if amount <= 0:
-        raise ValueError("Quantity must be greater than zero.")
+        raise ValueError("Cantidad debe de ser mayor que cero.")
     product.stock += amount
     db.session.commit()
     return product
@@ -37,3 +38,30 @@ def delete_product(product):
     product.stock = 0
     db.session.commit()
     return product
+
+def get_product_with_discount(product_id):
+    product = get_product_by_id(product_id)
+
+    if not product:
+        return None
+
+    active_discount = None
+    for discount in product.discounts:
+        if discount.is_currently_active():
+            active_discount = discount
+            break
+
+    price = product.price
+
+    if active_discount:
+        discount_amount = (active_discount.percentage / 100) * price
+        price -= discount_amount
+
+    return {
+        "id": product.id, "name": product.name,
+        "description": product.description,
+        "original_price": float(product.price),
+        "discounted_price": float(price),
+        "discount_percentage": active_discount.percentage if active_discount else None,
+        "stock": product.stock
+    }

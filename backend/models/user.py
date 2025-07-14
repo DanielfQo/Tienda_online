@@ -38,3 +38,15 @@ class Employee(db.Model):
     hired_at = db.Column(db.DateTime)
 
     user = db.relationship("User", back_populates="employee")
+
+class Address(db.Model):
+    __tablename__ = "addresses"
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
+    line = db.Column(db.String(255), nullable=False)
+    city = db.Column(db.String(100), nullable=False)
+    state = db.Column(db.String(100))
+    postal_code = db.Column(db.String(20))
+    country = db.Column(db.String(100), nullable=False)
+
+    user = db.relationship("User", backref="addresses")
