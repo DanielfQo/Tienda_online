@@ -27,7 +27,7 @@ class _LoginPageState extends State<LoginPage> {
     authProvider.login(username, password);
 
     if (authProvider.isLoggedIn) {
-      context.go(AppRoutes.home);
+      context.go(AppRoutes.homeAdmin);
     } else {
       setState(() {
         _error = 'Usuario o contraseña incorrectos';
