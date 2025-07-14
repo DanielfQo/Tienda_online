@@ -60,3 +60,14 @@ class ProductAttributeValue(db.Model):
     product_id = db.Column(db.Integer, db.ForeignKey("products.id"))
     attribute_id = db.Column(db.Integer, db.ForeignKey("attributes.id"))
     value = db.Column(db.String(100), nullable=False)
+
+class ProductDiscount(db.Model):
+    __tablename__ = "product_discounts"
+    id = db.Column(db.Integer, primary_key=True)
+    product_id = db.Column(db.Integer, db.ForeignKey("products.id"), nullable=False)
+    percentage = db.Column(db.Numeric(5,2), nullable=False)
+    start_date = db.Column(db.DateTime, nullable=False)
+    end_date = db.Column(db.DateTime, nullable=True)
+    active = db.Column(db.Boolean, default=True)
+
+    product = db.relationship("Product", backref="discounts")
