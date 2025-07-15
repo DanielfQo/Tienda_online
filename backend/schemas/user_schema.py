@@ -35,6 +35,7 @@ class UserSchema(SQLAlchemyAutoSchema):
     verified = auto_field()
     store_id = auto_field()
     created_at = auto_field(dump_only=True)
+    photo = auto_field()
 
 class ClientSchema(SQLAlchemyAutoSchema):
     class Meta:
