@@ -11,10 +11,12 @@ class User(db.Model):
     verified = db.Column(db.Boolean, default=False)
     store_id = db.Column(db.Integer, db.ForeignKey('stores.id'))
     created_at = db.Column(db.DateTime)
-
+    photo = db.Column(db.String(255), nullable=True)
+    
     client = db.relationship("Client", uselist=False, back_populates="user")
     admin = db.relationship("Admin", uselist=False, back_populates="user")
     employee = db.relationship("Employee", uselist=False, back_populates="user")
+    
 
 class Client(db.Model):
     __tablename__ = 'clients'
