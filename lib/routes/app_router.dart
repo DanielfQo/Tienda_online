@@ -13,6 +13,7 @@ import '../presentation/pages/cart_page.dart';
 import '../presentation/pages/search_page.dart';
 import '../presentation/pages/wish_list_page.dart';
 import '../presentation/widgets/main_shell.dart';
+import '../presentation/pages/home_admin_page.dart';
 
 final GoRouter appRouter = GoRouter(
   initialLocation: AppRoutes.home,
@@ -41,11 +42,10 @@ final GoRouter appRouter = GoRouter(
           path: AppRoutes.search,
           builder: (context, state) => const SearchPage(),
         ),
-        GoRoute( 
+        GoRoute(
           path: AppRoutes.wishList,
           builder: (context, state) => const WishListPage(),
-        )
-        
+        ),
       ],
     ),
 
@@ -65,6 +65,10 @@ final GoRouter appRouter = GoRouter(
     GoRoute(
       path: AppRoutes.addressBook,
       builder: (context, state) => const AddressPage(),
+    ),
+    GoRoute(
+      path: AppRoutes.homeAdmin,
+      builder: (context, state) => const HomeAdminPage(),
     ),
   ],
 );

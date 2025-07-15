@@ -9,4 +9,5 @@ class AppRoutes {
   static const String cart = '/cart';
   static const String search = '/search';
   static const String wishList = '/wish_list';
+  static const String homeAdmin = '/home_admin';
 }
