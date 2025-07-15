@@ -10,7 +10,7 @@ class RegisterUser {
     String name,
     String email,
     String password, [
-    String rol = 'cliente',
+    String rol = 'client',
     int? tiendaId,
   ]) {
     return repository.register(

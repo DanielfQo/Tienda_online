@@ -59,7 +59,7 @@ class AuthProvider extends ChangeNotifier {
     required String name,
     required String email,
     required String password,
-    String rol = 'cliente',
+    String rol = 'client',
     int? tiendaId,
   }) async {
     _setLoading(true);

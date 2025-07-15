@@ -41,7 +41,7 @@ class AuthRemoteDatasourceImpl implements AuthRemoteDatasource {
         id: 0,
         nombre: 'Usuario Temporal',
         correo: email,
-        rol: 'cliente',
+        rol: 'client',
         tiendaId: null,
         verificado: false,
       );
