@@ -7,7 +7,13 @@ import '../models/user_model.dart';
 
 abstract class AuthRemoteDatasource {
   Future<(String token, UserModel user)> login(String email, String password);
-  Future<UserModel> register(String nombre, String correo, String contrasena, String rol, int? tiendaId);
+  Future<UserModel> register(
+    String nombre,
+    String correo,
+    String contrasena,
+    String rol,
+    int? tiendaId,
+  );
 }
 
 class AuthRemoteDatasourceImpl implements AuthRemoteDatasource {
@@ -16,7 +22,10 @@ class AuthRemoteDatasourceImpl implements AuthRemoteDatasource {
   AuthRemoteDatasourceImpl(this.client);
 
   @override
-  Future<(String token, UserModel user)> login(String email, String password) async {
+  Future<(String token, UserModel user)> login(
+    String email,
+    String password,
+  ) async {
     final response = await client.post(
       Uri.parse(ApiEndpoints.login),
       headers: {'Content-Type': 'application/json'},
@@ -27,7 +36,6 @@ class AuthRemoteDatasourceImpl implements AuthRemoteDatasource {
       final json = jsonDecode(response.body);
       final token = json['access_token'];
 
-      
       //  un usuario temporal
       final user = UserModel(
         id: 0,
@@ -35,26 +43,31 @@ class AuthRemoteDatasourceImpl implements AuthRemoteDatasource {
         correo: email,
         rol: 'cliente',
         tiendaId: null,
-        verificado: false
+        verificado: false,
       );
       return (token.toString(), user);
-      
     } else {
       throw Exception('Login fallido');
     }
   }
 
   @override
-  Future<UserModel> register(String nombre, String correo, String contrasena, String rol, int? tiendaId) async {
+  Future<UserModel> register(
+    String nombre,
+    String correo,
+    String contrasena,
+    String rol,
+    int? tiendaId,
+  ) async {
     final response = await client.post(
       Uri.parse(ApiEndpoints.register),
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode({
-        'nombre': nombre,
-        'correo': correo,
-        'contrasena': contrasena,
-        'rol': rol,
-        'tienda_id': tiendaId,
+        'name': nombre,
+        'email': correo,
+        'password': contrasena,
+        'role': rol,
+        'store_id': tiendaId,
       }),
     );
 

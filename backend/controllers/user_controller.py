@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify
 from flask_jwt_extended import (create_access_token, jwt_required, get_jwt_identity)
 from datetime import timedelta
-from backend.services.user_service import (register_user, get_user_by_email, get_user_by_id)
+from backend.services.user_service import (register_user, get_user_by_email, get_user_by_id, upload_profile_photo)
 from backend.schemas.user_schema import (UserRegisterSchema, LoginSchema, UserSchema)
 from werkzeug.security import check_password_hash
 
@@ -40,3 +40,9 @@ def profile():
         return jsonify({"msg": "User not found"}), 404
 
     return jsonify(UserSchema().dump(user)), 200
+
+@user_bp.route("/profile/photo", methods=["POST"])
+@jwt_required()
+def change_profile_photo():
+    user_id = get_jwt_identity()
+    return upload_profile_photo(user_id, request)
