@@ -7,4 +7,9 @@ class AppRoutes {
   static const String orderHistory = '/pedidos';
   static const String addressBook = '/addresses';
   static const String homeAdmin = '/home_admin';
+  static const String usersAdmin = '/users_admin';
+  static const String productsAdmin = '/products_admin';
+  static const String salesAdmin = '/sales_admin';
+  static const String debtsAdmin = '/debts_admin';
+  static const String billsAdmin = '/bills_admin';
 }
