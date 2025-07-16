@@ -15,7 +15,12 @@ def create_app():
     cors.init_app(app)
 
     app.register_blueprint(product_bp, url_prefix='/api/product')
-    app.register_blueprint(user_bp)  # Registro
+    app.register_blueprint(user_bp, url_prefix='/api/users')
+
+
+    print("RUTAS REGISTRADAS:")
+    for rule in app.url_map.iter_rules():
+        print(f"{rule} -> {rule.endpoint}")
 
     return app
 

@@ -29,7 +29,7 @@ class AuthRemoteDatasourceImpl implements AuthRemoteDatasource {
     final response = await client.post(
       Uri.parse(ApiEndpoints.login),
       headers: {'Content-Type': 'application/json'},
-      body: jsonEncode({'correo': email, 'contrasena': password}),
+      body: jsonEncode({'email': email, 'password': password}),
     );
 
     if (response.statusCode == 200) {

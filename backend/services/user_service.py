@@ -77,3 +77,20 @@ def upload_profile_photo(user_id, request):
         }), 200
 
     return jsonify({"msg": "Invalid file type. Only png, jpg, jpeg allowed."}), 400
+
+def update_user_profile(user_id, data):
+    user = User.query.get(user_id)
+    if not user:
+        return None
+
+    if "name" in data:
+        user.name = data["name"]
+    if "gender" in data:
+        user.gender = data["gender"]
+    if "birth_date" in data:
+        user.birth_date = data["birth_date"]
+    if "photo" in data:
+        user.photo = data["photo"]
+
+    db.session.commit()
+    return user
