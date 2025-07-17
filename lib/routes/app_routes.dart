@@ -10,4 +10,9 @@ class AppRoutes {
   static const String search = '/search';
   static const String wishList = '/wish_list';
   static const String homeAdmin = '/home_admin';
+  static const String usersAdmin = '/users_admin';
+  static const String productsAdmin = '/products_admin';
+  static const String salesAdmin = '/sales_admin';
+  static const String debtsAdmin = '/debts_admin';
+  static const String billsAdmin = '/bills_admin';
 }
