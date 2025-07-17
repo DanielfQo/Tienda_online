@@ -6,35 +6,41 @@ import 'core/theme/app_theme.dart';
 import 'routes/app_router.dart';
 
 import 'data/datasources/auth_remote_datasource_impl.dart';
+import 'data/datasources/user_remote_datasource_impl.dart';
+
 import 'data/repositories/auth_repository_impl.dart';
+import 'data/repositories/user_repository_impl.dart';
+
 import 'domain/usecases/login_user.dart';
 import 'domain/usecases/register_user.dart';
-import 'presentation/providers/auth_provider.dart';
+import 'domain/usecases/get_user_profile.dart';
 
+import 'presentation/providers/auth_provider.dart';
+import 'presentation/providers/user_provider.dart';
 
 void main() {
-
   final client = http.Client();
   final authDatasource = AuthRemoteDatasourceImpl(client);
   final authRepository = AuthRepositoryImpl(authDatasource);
   final loginUserUsecase = LoginUser(authRepository);
   final registerUserUsecase = RegisterUser(authRepository);
 
+  final userDatasource = UserRemoteDatasourceImpl(client);
+  final userRepository = UserRepositoryImpl(userDatasource);
+  final userProfileUsecase = GetUserProfile(userRepository);
+
   runApp(
     MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (_) => AuthProvider(
-            loginUserUsecase,
-            registerUserUsecase,
-          ),
+          create: (_) => AuthProvider(loginUserUsecase, registerUserUsecase),
         ),
+        ChangeNotifierProvider(create: (_) => UserProvider(userProfileUsecase)),
       ],
       child: const MyApp(),
     ),
   );
 }
-
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});

@@ -1,10 +1,14 @@
 from backend.extensions import db
+from sqlalchemy import Date, Enum
+
 
 class User(db.Model):
     __tablename__ = 'users'
     
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
+    birth_date = db.Column(Date, nullable=True)
+    gender = db.Column(Enum('male', 'female', 'other', name='gender_enum'), nullable=True)
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(255), nullable=False)  # Password hash
     role = db.Column(db.Enum('client', 'admin', 'employee', name='role_enum'), nullable=False)

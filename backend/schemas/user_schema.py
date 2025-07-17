@@ -21,6 +21,14 @@ class LoginSchema(SQLAlchemyAutoSchema):
 
     email = fields.Email(required=True)
     password = fields.String(load_only=True, required=True)
+    
+
+class UserUpdateSchema(SQLAlchemyAutoSchema):
+    name = fields.Str()
+    gender = fields.Str()
+    birth_date = fields.Date()
+    photo = fields.Str()
+
 
 class UserSchema(SQLAlchemyAutoSchema):
     class Meta:
