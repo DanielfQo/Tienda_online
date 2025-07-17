@@ -23,7 +23,8 @@ class Product(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
     description = db.Column(db.Text)
-    price = db.Column(db.DECIMAL(10, 2), nullable=False)
+    sale_price = db.Column(db.DECIMAL(10, 2), nullable=False)
+    purchase_price = db.Column(db.DECIMAL(10, 2), nullable=False)
     stock = db.Column(db.Integer, nullable=False)
     category_id = db.Column(db.Integer, db.ForeignKey("categories.id"))
     store_id = db.Column(db.Integer, db.ForeignKey("stores.id"))
@@ -32,13 +33,14 @@ class Product(db.Model):
         default=db.func.now(),
         onupdate=db.func.now()
     )
-
     images = db.relationship(
         "ProductImage",
         backref="product",
         cascade="all, delete-orphan"
     )
     values = db.relationship("ProductAttributeValue", backref="product")
+
+    __table_args__  = (db.Index('ix_prod_store_name', 'store_id','name', unique=True),)
 
     def is_available(self):
         return self.stock > 0

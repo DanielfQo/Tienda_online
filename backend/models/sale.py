@@ -23,6 +23,7 @@ class SaleDetail(db.Model):
     product_id = db.Column(db.Integer, db.ForeignKey('products.id'), nullable=False)
     quantity = db.Column(db.Integer, nullable=False)
     unit_price = db.Column(db.DECIMAL(10, 2), nullable=False)
+    purchase_price = db.Numeric(10,2)
 
 class PaymentMethod(db.Model):
     __tablename__ = "payment_methods"
