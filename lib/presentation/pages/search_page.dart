@@ -23,9 +23,17 @@ class _SearchPageState extends State<SearchPage> {
           children: [
             TextField(
               controller: _searchController,
+              style: const TextStyle(color: Colors.black),
               decoration: InputDecoration(
                 labelText: "Buscar productos",
-                border: OutlineInputBorder(),
+                labelStyle: const TextStyle(color: Colors.black),
+                border: const OutlineInputBorder(),
+                enabledBorder: const OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.grey),
+                ),
+                focusedBorder: const OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.orange, width: 2),
+                ),
               ),
             ),
             const SizedBox(height: 16),
