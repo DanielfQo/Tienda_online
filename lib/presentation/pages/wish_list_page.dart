@@ -8,7 +8,7 @@ class WishListPage extends StatefulWidget {
 }
 
 class _WishListPageState extends State<WishListPage> {
-  List<Map<String, dynamic>> wishListItems = [
+  final List<Map<String, dynamic>> wishListItems = [
     {'name': 'Producto A', 'price': 25.0},
     {'name': 'Producto B', 'price': 30.0},
     {'name': 'Producto C', 'price': 18.5},
@@ -26,9 +26,14 @@ class _WishListPageState extends State<WishListPage> {
 
   void _addToCart(int index) {
     final item = wishListItems[index];
-
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text('${item['name']} añadido al carrito')),
+    );
+  }
+
+  void _viewProductDetails(Map<String, dynamic> product) { //para despues
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Ver detalles de ${product['name']}')),
     );
   }
 
@@ -49,7 +54,9 @@ class _WishListPageState extends State<WishListPage> {
         separatorBuilder: (_, __) => const Divider(),
         itemBuilder: (context, index) {
           final item = wishListItems[index];
+
           return ListTile(
+            onTap: () => _viewProductDetails(item),
             title: Text(item['name']),
             subtitle: Text('\$${item['price']}'),
             trailing: Wrap(
@@ -62,7 +69,7 @@ class _WishListPageState extends State<WishListPage> {
                 ),
                 IconButton(
                   icon: const Icon(Icons.delete),
-                  tooltip: 'Eliminar de la lista',
+                  tooltip: 'Eliminar',
                   onPressed: () => _removeFromWishlist(index),
                 ),
               ],
@@ -73,3 +80,4 @@ class _WishListPageState extends State<WishListPage> {
     );
   }
 }
+
