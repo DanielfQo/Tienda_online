@@ -3,6 +3,7 @@ import '../../core/theme/light_color.dart';
 import '../widgets/custom_button.dart';
 import '../widgets/admin_category_button.dart';
 import '../widgets/resumen_card.dart';
+import '../widgets/ingresos_line_chart.dart';
 
 class HomeAdminPage extends StatelessWidget {
   const HomeAdminPage({super.key});
@@ -24,7 +25,7 @@ class HomeAdminPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: LightColor.backgroundProfile,
       appBar: AppBar(
-        title: const Text('Dashboard Admin'),
+        title: const Text('Thunder Dashboard'),
         centerTitle: true,
         backgroundColor: Colors.orange,
       ),
@@ -85,6 +86,14 @@ class HomeAdminPage extends StatelessWidget {
                 ),
               ],
             ),
+
+            const SizedBox(height: 24),
+            const Text(
+              'Ingresos semanales',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: 12),
+            const IngresosLineChart(),
 
             const SizedBox(height: 24),
             const Text(

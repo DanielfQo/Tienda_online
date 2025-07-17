@@ -42,11 +42,10 @@ final GoRouter appRouter = GoRouter(
           path: AppRoutes.search,
           builder: (context, state) => const SearchPage(),
         ),
-        GoRoute( 
+        GoRoute(
           path: AppRoutes.wishList,
           builder: (context, state) => const WishListPage(),
-        )
-        
+        ),
       ],
     ),
 
