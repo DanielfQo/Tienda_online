@@ -43,7 +43,8 @@ class ProductCreateSchema(SQLAlchemyAutoSchema):
         include_fk = True
 
     name = auto_field(required=True)
-    price = auto_field(required=True)
+    sale_price = auto_field(required=True)
+    purchase_price = auto_field(required=True)
     stock = auto_field(required=True)
     category_id = auto_field(required=True)
     store_id = auto_field(required=True)
