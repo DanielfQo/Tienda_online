@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tienda_online/presentation/pages/checkout_page.dart';
 
 class CartPage extends StatelessWidget {
   const CartPage({super.key});
@@ -63,10 +64,20 @@ class CartPage extends StatelessWidget {
 
             ElevatedButton(
               onPressed: () {
-                //TODO implementar la logica de pago
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => CheckoutPage(
+                      cartItems: cartItems,
+                      total: total,
+                    ),
+                  ),
+                );
               },
               style: ElevatedButton.styleFrom(
                 padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
+                foregroundColor: Colors.black,
+                  backgroundColor: Colors.white,
               ),
               child: const Text('Proceder al pago'),
             ),
