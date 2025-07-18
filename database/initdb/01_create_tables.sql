@@ -19,19 +19,19 @@ CREATE TABLE stores (
   INDEX       idx_store_name (name)
 );
 
--- users
-
 CREATE TABLE users (
-  id           INT AUTO_INCREMENT PRIMARY KEY,
-  name         VARCHAR(100) NOT NULL,
-  email        VARCHAR(120) NOT NULL UNIQUE,
-  password     VARCHAR(255) NOT NULL,
-  role         ENUM('client','admin','employee')  NOT NULL,
-  verified     BOOLEAN DEFAULT FALSE,
-  store_id     INT,
-  photo        VARCHAR(255),
-  created_at   DATETIME DEFAULT CURRENT_TIMESTAMP,
-  FOREIGN KEY (store_id) REFERENCES stores(id) ON DELETE SET NULL
+  id          INT AUTO_INCREMENT PRIMARY KEY,
+  name        VARCHAR(100) NOT NULL,
+  birth_date  DATE,
+  gender      ENUM('male', 'female', 'other'),
+  email       VARCHAR(120) NOT NULL UNIQUE,
+  password    VARCHAR(255) NOT NULL,
+  role        ENUM('client', 'admin', 'employee') NOT NULL,
+  verified    BOOLEAN DEFAULT FALSE,
+  store_id    INT,
+  created_at  DATETIME,
+  photo       VARCHAR(255),
+  FOREIGN KEY (store_id) REFERENCES stores(id)
 );
 
 CREATE INDEX idx_users_email ON users(email);
