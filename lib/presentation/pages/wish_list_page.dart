@@ -85,12 +85,7 @@ class _WishListPageState extends State<WishListPage> {
     .where((item) => item['category'] == selectedCategory)
     .toList();
 
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Lista de deseos"),
-        centerTitle: true,
-      ),
-      body: Column(
+    return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const SizedBox(height: 8),
@@ -129,7 +124,6 @@ class _WishListPageState extends State<WishListPage> {
             ),
           ),
         ],
-      ),
     );
   }
 }

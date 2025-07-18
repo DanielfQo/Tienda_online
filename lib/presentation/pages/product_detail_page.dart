@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 class ProductDetailPage extends StatelessWidget {
   final String name;
   final double price;
-  final String image;
+  final List<String> images;
   final String description;
 
   const ProductDetailPage({
     super.key,
     required this.name,
     required this.price,
-    required this.image,
+    required this.images,
     required this.description,
   });
 
@@ -25,7 +25,18 @@ class ProductDetailPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Image.asset(image, height: 250, fit: BoxFit.cover),
+            SizedBox(
+              height: 250,
+              child: PageView.builder(
+                itemCount: images.length,
+                itemBuilder: (context, index) {
+                  return Image.network(
+                    images[index],
+                    fit: BoxFit.cover,
+                  );
+                },
+              ),
+            ),
             const SizedBox(height: 16),
             Text(name, style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
             const SizedBox(height: 8),
@@ -55,8 +66,7 @@ class ProductDetailPage extends StatelessWidget {
                 const SizedBox(width: 10),
                 IconButton(
                   icon: const Icon(Icons.favorite_border), //whishlist
-                  onPressed: () {
-                  },
+                  onPressed: () {},
                 ),
               ],
             ),

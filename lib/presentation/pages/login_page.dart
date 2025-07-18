@@ -40,7 +40,7 @@ class _LoginPageState extends State<LoginPage> {
 
       if (!mounted) return;
 
-      context.go(AppRoutes.home);
+      context.go(AppRoutes.initial);
     } else {
       setState(() {
         _error = authProvider.errorMessage ?? 'Usuario o contraseña incorrectos';

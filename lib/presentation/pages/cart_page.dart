@@ -16,11 +16,7 @@ class CartPage extends StatelessWidget {
       return sum + (item['price'] as double) * (item['quantity'] as int);
     });
 
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Carrito de compras'),
-      ),
-      body: Padding(
+    return Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
@@ -72,7 +68,6 @@ class CartPage extends StatelessWidget {
             ),
           ],
         ),
-      ),
     );
   }
 }

@@ -49,7 +49,7 @@ class ProfilePage extends StatelessWidget {
                 right: 10,
                 child: IconButton(
                   icon: const Icon(Icons.close, size: 28, color: Colors.black),
-                  onPressed: () => context.go(AppRoutes.home),
+                  onPressed: () => context.go(AppRoutes.initial),
                 ),
               ),
             ],
@@ -105,7 +105,7 @@ class ProfilePage extends StatelessWidget {
                       size: 28,
                       color: Colors.black,
                     ),
-                    onPressed: () => context.go(AppRoutes.home),
+                    onPressed: () => context.go(AppRoutes.initial),
                   ),
                 ],
               ),
@@ -167,7 +167,7 @@ class ProfilePage extends StatelessWidget {
             text: 'Cerrar sesión',
             onPressed: () {
               authProvider.logout();
-              context.go(AppRoutes.home);
+              context.go(AppRoutes.initial);
             },
             icon: Icons.logout,
           ),

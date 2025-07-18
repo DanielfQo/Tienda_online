@@ -18,14 +18,25 @@ class ProductModel extends Product {
       id: json['id'],
       name: json['name'],
       description: json['description'],
-      purchasePrice: json['purchase_price'],
-      salePrice: json['sale_price'],
-      stock: json['stock'],
+      purchasePrice: (json['purchase_price'] is int)
+          ? (json['purchase_price'] as int).toDouble()
+          : double.parse(json['purchase_price'].toString()),
+      salePrice: (json['sale_price'] is int)
+          ? (json['sale_price'] as int).toDouble()
+          : double.parse(json['sale_price'].toString()),
+      stock: json['stock'] ?? 0,
       createdAt: DateTime.parse(json['created_at']),
-      imageUrls: List<String>.from(json['images'].map((img) => img['url'])),
-      attributes: List<String>.from(json['values'].map((val) => val['value'])),
+      imageUrls: List<String>.from(
+        (json['images'] as List<dynamic>).map((img) => img['url'] as String),
+      ),
+      attributes: List<String>.from(
+        (json['values'] as List<dynamic>).map(
+          (val) => val['value']?.toString() ?? '',
+        ),
+      ),
     );
   }
+
 
   Map<String, dynamic> toJson() => {
         'id': id,

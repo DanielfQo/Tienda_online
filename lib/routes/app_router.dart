@@ -2,6 +2,7 @@ import 'package:go_router/go_router.dart';
 import 'package:flutter/material.dart';
 
 import 'app_routes.dart';
+import '../presentation/pages/main_page.dart';
 import '../presentation/pages/home_page.dart';
 import '../presentation/pages/login_page.dart';
 import '../presentation/pages/register_page.dart';
@@ -16,8 +17,16 @@ import '../presentation/widgets/main_shell.dart';
 import '../presentation/pages/home_admin_page.dart';
 
 final GoRouter appRouter = GoRouter(
-  initialLocation: AppRoutes.home,
+  initialLocation: AppRoutes.initial,
   routes: [
+    GoRoute(
+      path: AppRoutes.initial,
+      builder: (context, state) => const MainScreen(),
+    ),
+    GoRoute(
+      path: AppRoutes.home,
+      builder: (context, state) => const HomePage(),
+    ),
     GoRoute(
       path: AppRoutes.login,
       builder: (context, state) => const LoginPage(),
@@ -25,28 +34,6 @@ final GoRouter appRouter = GoRouter(
     GoRoute(
       path: AppRoutes.register,
       builder: (context, state) => const RegisterPage(),
-    ),
-
-    ShellRoute(
-      builder: (context, state, child) => MainShell(child: child),
-      routes: [
-        GoRoute(
-          path: AppRoutes.home,
-          builder: (context, state) => const HomePage(),
-        ),
-        GoRoute(
-          path: AppRoutes.cart,
-          builder: (context, state) => const CartPage(),
-        ),
-        GoRoute(
-          path: AppRoutes.search,
-          builder: (context, state) => const SearchPage(),
-        ),
-        GoRoute(
-          path: AppRoutes.wishList,
-          builder: (context, state) => const WishListPage(),
-        ),
-      ],
     ),
 
     GoRoute(

@@ -2,12 +2,14 @@ class Product {
   final int id;
   final String name;
   final String description;
-  final String purchasePrice;
-  final String salePrice;
+  final double purchasePrice;
+  final double salePrice;
   final int stock;
   final DateTime createdAt;
   final List<String> imageUrls;
   final List<String> attributes;
+  final bool oferta;    // TODO: verificar bd
+  bool isLiked;         //
 
   Product({
     required this.id,
@@ -19,5 +21,7 @@ class Product {
     required this.createdAt,
     required this.imageUrls,
     required this.attributes,
+    this.oferta = false,
+    this.isLiked = false,
   });
 }
