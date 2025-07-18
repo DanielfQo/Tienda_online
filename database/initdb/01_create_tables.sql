@@ -185,11 +185,34 @@ CREATE TABLE shopping_carts (
 );
 
 CREATE TABLE wishlists (
-  id         INT AUTO_INCREMENT PRIMARY KEY,
-  client_id  INT NOT NULL,
-  name       VARCHAR(100) NOT NULL,
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  client_id INT NOT NULL,
+  name VARCHAR(100) NOT NULL,
   created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (client_id) REFERENCES clients(user_id) ON DELETE CASCADE
+);
+
+-- items en carritos de compra
+CREATE TABLE shopping_cart_items (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  cart_id INT NOT NULL,
+  product_id INT NOT NULL,
+  quantity INT NOT NULL DEFAULT 1,
+  added_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+
+  FOREIGN KEY (cart_id) REFERENCES shopping_carts(id) ON DELETE CASCADE,
+  FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE
+);
+
+-- items en listas de deseos
+CREATE TABLE wishlist_items (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  wishlist_id INT NOT NULL,
+  product_id INT NOT NULL,
+  added_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+
+  FOREIGN KEY (wishlist_id) REFERENCES wishlists(id) ON DELETE CASCADE,
+  FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE
 );
 
 -- ========================
