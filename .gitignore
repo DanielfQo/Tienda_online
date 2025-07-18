@@ -123,4 +123,5 @@ backend/venv/
 
 
 .env
-venv/
+venv/.DS_Store
+temp_backup/

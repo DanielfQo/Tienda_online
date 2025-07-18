@@ -7,6 +7,7 @@ import '../widgets/custom_button.dart';
 import '../widgets/admin_category_button.dart';
 import '../widgets/resumen_card.dart';
 import '../widgets/ingresos_line_chart.dart';
+import '../widgets/admin_app_bar.dart';
 
 class HomeAdminPage extends StatelessWidget {
   const HomeAdminPage({super.key});
@@ -55,111 +56,93 @@ class HomeAdminPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: LightColor.backgroundProfile,
-      body: Stack(
-        children: [
-          // Contenido principal
-          SingleChildScrollView(
-            padding: const EdgeInsets.fromLTRB(16, 70, 16, 16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
-                  'Thunder Dashboard',
-                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 16),
-                const Text(
-                  'Accesos rápidos',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 12),
-                GridView.builder(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: categorias.length,
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 4,
-                    childAspectRatio: 0.8,
-                  ),
-                  itemBuilder: (context, index) {
-                    final cat = categorias[index];
-                    return AdminCategoryButton(
-                      icon: cat['icon'],
-                      label: cat['label'],
-                      onTap: () {
-                        context.go(cat['route']);
-                      },
-                    );
+      appBar: const AdminAppBar(
+        title: 'Thunder Dashboard',
+        returnRoute: AppRoutes.initial,
+      ),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const SizedBox(height: 8),
+            const Text(
+              'Accesos rápidos',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 12),
+            GridView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: categorias.length,
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 4,
+                childAspectRatio: 0.8,
+              ),
+              itemBuilder: (context, index) {
+                final cat = categorias[index];
+                return AdminCategoryButton(
+                  icon: cat['icon'],
+                  label: cat['label'],
+                  onTap: () {
+                    context.go(cat['route']);
                   },
+                );
+              },
+            ),
+            const SizedBox(height: 24),
+            const Text(
+              'Resumen del mes',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 12),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: const [
+                ResumenCard(
+                  title: 'Ingresos',
+                  amount: 'S/ 25,000',
+                  color: Colors.green,
                 ),
-
-                const SizedBox(height: 24),
-                const Text(
-                  'Resumen del mes',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ResumenCard(
+                  title: 'Gastos',
+                  amount: 'S/ 12,000',
+                  color: Colors.red,
                 ),
-                const SizedBox(height: 12),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: const [
-                    ResumenCard(
-                      title: 'Ingresos',
-                      amount: 'S/ 25,000',
-                      color: Colors.green,
-                    ),
-                    ResumenCard(
-                      title: 'Gastos',
-                      amount: 'S/ 12,000',
-                      color: Colors.red,
-                    ),
-                    ResumenCard(
-                      title: 'Ganancia',
-                      amount: 'S/ 13,000',
-                      color: Colors.blue,
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 24),
-                const Text(
-                  'Ingresos semanales',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-                SizedBox(height: 12),
-                const IngresosLineChart(),
-                const SizedBox(height: 24),
-                const Text(
-                  'Más vendidos',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 8),
-                ListTile(
-                  leading: const CircleAvatar(child: Icon(Icons.shopping_cart)),
-                  title: const Text('Zapato X'),
-                  subtitle: const Text('150 vendidos'),
-                  trailing: const Icon(Icons.arrow_forward_ios, size: 16),
-                  onTap: () {},
-                ),
-                ListTile(
-                  leading: const CircleAvatar(child: Icon(Icons.shopping_cart)),
-                  title: const Text('Polo blanco'),
-                  subtitle: const Text('120 vendidos'),
-                  trailing: const Icon(Icons.arrow_forward_ios, size: 16),
-                  onTap: () {},
+                ResumenCard(
+                  title: 'Ganancia',
+                  amount: 'S/ 13,000',
+                  color: Colors.blue,
                 ),
               ],
             ),
-          ),
-
-          // Botón X
-          Positioned(
-            top: 40,
-            right: 10,
-            child: IconButton(
-              icon: const Icon(Icons.close, size: 28, color: Colors.black),
-              onPressed: () => context.go(AppRoutes.initial),
+            const SizedBox(height: 24),
+            const Text(
+              'Ingresos semanales',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
-          ),
-        ],
+            const SizedBox(height: 12),
+            const IngresosLineChart(),
+            const SizedBox(height: 24),
+            const Text(
+              'Más vendidos',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 8),
+            const ListTile(
+              leading: CircleAvatar(child: Icon(Icons.shopping_cart)),
+              title: Text('Zapato X'),
+              subtitle: Text('150 vendidos'),
+              trailing: Icon(Icons.arrow_forward_ios, size: 16),
+            ),
+            const ListTile(
+              leading: CircleAvatar(child: Icon(Icons.shopping_cart)),
+              title: Text('Polo blanco'),
+              subtitle: Text('120 vendidos'),
+              trailing: Icon(Icons.arrow_forward_ios, size: 16),
+            ),
+          ],
+        ),
       ),
     );
   }
