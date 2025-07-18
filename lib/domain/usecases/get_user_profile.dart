@@ -1,5 +1,5 @@
 import '../entities/user.dart';
-import '../repositories/user_repository.dart';
+import '../../data/repositories/user_repository_impl.dart';
 
 class GetUserProfile {
   final UserRepository repository;

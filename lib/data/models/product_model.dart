@@ -1,0 +1,41 @@
+import 'package:tienda_online/domain/entities/product.dart';
+
+class ProductModel extends Product {
+  ProductModel({
+    required super.id,
+    required super.name,
+    required super.description,
+    required super.purchasePrice,
+    required super.salePrice,
+    required super.stock,
+    required super.createdAt,
+    required super.imageUrls,
+    required super.attributes,
+  });
+
+  factory ProductModel.fromJson(Map<String, dynamic> json) {
+    return ProductModel(
+      id: json['id'],
+      name: json['name'],
+      description: json['description'],
+      purchasePrice: json['purchase_price'],
+      salePrice: json['sale_price'],
+      stock: json['stock'],
+      createdAt: DateTime.parse(json['created_at']),
+      imageUrls: List<String>.from(json['images'].map((img) => img['url'])),
+      attributes: List<String>.from(json['values'].map((val) => val['value'])),
+    );
+  }
+
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'name': name,
+        'description': description,
+        'purchase_price': purchasePrice,
+        'sale_price': salePrice,
+        'stock': stock,
+        'created_at': createdAt.toIso8601String(),
+        'images': imageUrls.map((url) => {'url': url}).toList(),
+        'values': attributes.map((attr) => {'value': attr}).toList(),
+      };
+}

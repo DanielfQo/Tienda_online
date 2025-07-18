@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import '../../core/theme/light_color.dart';
 import '../../core/theme/app_theme.dart';
 import '../providers/auth_provider.dart';
+import '../providers/user_provider.dart';
 import '../../routes/app_routes.dart';
 import '../widgets/custom_button.dart';
 import '../widgets/profile_option_tile.dart';
@@ -16,6 +17,8 @@ class ProfilePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final authProvider = context.watch<AuthProvider>();
     final isLoggedIn = authProvider.isLoggedIn;
+
+    'Usuario';
 
     return Scaffold(
       backgroundColor: LightColor.backgroundProfile,
@@ -77,6 +80,11 @@ class ProfilePage extends StatelessWidget {
   }
 
   Widget _buildLoggedInView(BuildContext context, AuthProvider authProvider) {
+    final userProvider = context.watch<UserProvider>();
+    String nombreUsuario = userProvider.user?.nombre ?? 'Usuario';
+    nombreUsuario = nombreUsuario.toUpperCase();
+
+
     return Padding(
       padding: AppTheme.padding,
       child: Column(
@@ -86,7 +94,7 @@ class ProfilePage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'KEVIN ANDRE',
+                nombreUsuario,
                 style: AppTheme.h1Style.copyWith(fontWeight: FontWeight.bold),
               ),
               Row(
@@ -112,31 +120,44 @@ class ProfilePage extends StatelessWidget {
               crossAxisSpacing: 12,
               mainAxisSpacing: 12,
               childAspectRatio: 1.1,
-              children: [
-                ProfileOptionTile(
-                  icon: Icons.person_outline,
-                  title: 'Mi cuenta',
-                  subtitle: 'Datos y configuración',
-                  onTap: () => context.go(AppRoutes.account),
-                ),
-                ProfileOptionTile(
-                  icon: Icons.local_shipping_outlined,
-                  title: 'Historial de pedidos',
-                  subtitle: 'Tus pedidos anteriores y en curso',
-                  onTap: () => context.go(AppRoutes.orderHistory),
-                ),
-                ProfileOptionTile(
-                  icon: Icons.location_on_outlined,
-                  title: 'Direcciones',
-                  subtitle: 'Administra tus direcciones',
-                  onTap: () => context.go(AppRoutes.addressBook),
-                ),
-                ProfileOptionTile(
-                  icon: Icons.help_outline,
-                  title: '¿Necesitas ayuda?',
-                  subtitle: 'Soporte y preguntas frecuentes',
-                  onTap: () {},
-                ),
+                children: [
+                  ProfileOptionTile(
+                    icon: Icons.person_outline,
+                    title: 'Mi cuenta',
+                    subtitle: 'Datos y configuración',
+                    onTap: () => context.go(AppRoutes.account),
+                  ),
+                  ProfileOptionTile(
+                    icon: Icons.local_shipping_outlined,
+                    title: 'Historial de pedidos',
+                    subtitle: 'Tus pedidos anteriores y en curso',
+                    onTap: () => context.go(AppRoutes.orderHistory),
+                  ),
+                  ProfileOptionTile(
+                    icon: Icons.location_on_outlined,
+                    title: 'Direcciones',
+                    subtitle: 'Administra tus direcciones',
+                    onTap: () => context.go(AppRoutes.addressBook),
+                  ),
+                  ProfileOptionTile(
+                    icon: Icons.help_outline,
+                    title: '¿Necesitas ayuda?',
+                    subtitle: 'Soporte y preguntas frecuentes',
+                    onTap: () {},
+                  ),
+                  ProfileOptionTile(
+                    icon: Icons.help_outline,
+                    title: '¿Necesitas ayuda?',
+                    subtitle: 'Soporte y preguntas frecuentes',
+                    onTap: () {},
+                  ),
+
+                  ProfileOptionTile( //TODO: QUE SOLO APAREZCA CUANDO SEA ADMIN
+                    icon: Icons.admin_panel_settings_outlined,
+                    title: 'Administración',
+                    subtitle: 'Vista administrador',
+                    onTap: () => context.go(AppRoutes.homeAdmin),
+                  ),
               ],
             ),
           ),

@@ -82,7 +82,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       ),
                     ),
                     const SizedBox(height: 10),
-                    _buildForm(), // 👉 extrae el formulario a otro método para mantener limpio
+                    _buildForm(),
                   ],
                 ),
               ),
