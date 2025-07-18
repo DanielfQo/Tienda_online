@@ -35,7 +35,9 @@ void main() {
         ChangeNotifierProvider(
           create: (_) => AuthProvider(loginUserUsecase, registerUserUsecase),
         ),
-        ChangeNotifierProvider(create: (_) => UserProvider(userProfileUsecase)),
+        ChangeNotifierProvider(
+          create: (_) => UserProvider(userProfileUsecase),
+        ),
       ],
       child: const MyApp(),
     ),

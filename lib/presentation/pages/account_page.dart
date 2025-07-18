@@ -21,116 +21,131 @@ class AccountPage extends StatelessWidget {
         child: userProvider.isLoading
             ? const Center(child: CircularProgressIndicator())
             : user == null
-            ? const Center(child: Text("No se pudo cargar el perfil"))
-            : SingleChildScrollView(
-                padding: AppTheme.padding,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    /// Botón cerrar
-                    Align(
-                      alignment: Alignment.topRight,
-                      child: IconButton(
-                        icon: const Icon(
-                          Icons.close,
-                          size: 28,
-                          color: Colors.black,
-                        ),
-                        onPressed: () => context.go(AppRoutes.profile),
-                      ),
-                    ),
-                    const SizedBox(height: 10),
-
-                    const Center(
-                      child: Text(
-                        'EDITAR LA INFORMACIÓN DE PERFIL',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 30),
-
-                    /// Nombre
-                    const Text('NOMBRE'),
-                    const SizedBox(height: 4),
-                    TextFormField(
-                      initialValue: user.nombre,
-                      decoration: const InputDecoration(
-                        border: OutlineInputBorder(),
-                      ),
-                    ),
-
-                    const SizedBox(height: 20),
-                    const Text('FECHA DE NACIMIENTO'),
-                    const SizedBox(height: 4),
-                    Row(
+                ? Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        _buildDateField(
-                          user.fechaNacimiento?.day.toString().padLeft(
-                                2,
-                                '0',
-                              ) ??
-                              '',
+                        const Text(
+                          "No se pudo cargar el perfil",
+                          style: TextStyle(fontSize: 16),
                         ),
-                        const SizedBox(width: 8),
-                        _buildDateField(
-                          user.fechaNacimiento?.month.toString().padLeft(
-                                2,
-                                '0',
-                              ) ??
-                              '',
-                        ),
-                        const SizedBox(width: 8),
-                        _buildDateField(
-                          user.fechaNacimiento?.year.toString() ?? '',
+                        const SizedBox(height: 20),
+                        ElevatedButton(
+                          onPressed: () => context.go(AppRoutes.profile),
+                          child: const Text("Regresar al perfil"),
                         ),
                       ],
                     ),
-
-                    const SizedBox(height: 20),
-                    const Text('CORREO ELECTRÓNICO'),
-                    const SizedBox(height: 4),
-                    TextFormField(
-                      initialValue: user.correo,
-                      decoration: const InputDecoration(
-                        border: OutlineInputBorder(),
-                        suffixIcon: Icon(Icons.lock_outline),
-                      ),
-                    ),
-
-                    const SizedBox(height: 20),
-                    const Text('CONTRASEÑA'),
-                    const SizedBox(height: 4),
-                    TextFormField(
-                      obscureText: true,
-                      initialValue: '********',
-                      decoration: const InputDecoration(
-                        border: OutlineInputBorder(),
-                        suffixIcon: Icon(Icons.edit),
-                      ),
-                    ),
-
-                    const SizedBox(height: 20),
-                    const Text('SEXO'),
-                    const SizedBox(height: 4),
-                    Row(
+                  )
+                : SingleChildScrollView(
+                    padding: AppTheme.padding,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        _buildGenderOption(
-                          'Masculino',
-                          user.genero == 'Masculino',
+                        /// Botón cerrar
+                        Align(
+                          alignment: Alignment.topRight,
+                          child: IconButton(
+                            icon: const Icon(
+                              Icons.close,
+                              size: 28,
+                              color: Colors.black,
+                            ),
+                            onPressed: () => context.go(AppRoutes.profile),
+                          ),
                         ),
-                        _buildGenderOption(
-                          'Femenino',
-                          user.genero == 'Femenino',
+                        const SizedBox(height: 10),
+
+                        const Center(
+                          child: Text(
+                            'EDITAR LA INFORMACIÓN DE PERFIL',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                         ),
-                        _buildGenderOption('Otros', user.genero == 'Otros'),
+                        const SizedBox(height: 30),
+
+                        /// Nombre
+                        const Text('NOMBRE'),
+                        const SizedBox(height: 4),
+                        TextFormField(
+                          initialValue: user.nombre,
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(),
+                          ),
+                        ),
+
+                        const SizedBox(height: 20),
+                        const Text('FECHA DE NACIMIENTO'),
+                        const SizedBox(height: 4),
+                        Row(
+                          children: [
+                            _buildDateField(
+                              user.fechaNacimiento?.day.toString().padLeft(
+                                    2,
+                                    '0',
+                                  ) ??
+                                  '',
+                            ),
+                            const SizedBox(width: 8),
+                            _buildDateField(
+                              user.fechaNacimiento?.month.toString().padLeft(
+                                    2,
+                                    '0',
+                                  ) ??
+                                  '',
+                            ),
+                            const SizedBox(width: 8),
+                            _buildDateField(
+                              user.fechaNacimiento?.year.toString() ?? '',
+                            ),
+                          ],
+                        ),
+
+                        const SizedBox(height: 20),
+                        const Text('CORREO ELECTRÓNICO'),
+                        const SizedBox(height: 4),
+                        TextFormField(
+                          initialValue: user.correo,
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(),
+                            suffixIcon: Icon(Icons.lock_outline),
+                          ),
+                        ),
+
+                        const SizedBox(height: 20),
+                        const Text('CONTRASEÑA'),
+                        const SizedBox(height: 4),
+                        TextFormField(
+                          obscureText: true,
+                          initialValue: '********',
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(),
+                            suffixIcon: Icon(Icons.edit),
+                          ),
+                        ),
+
+                        const SizedBox(height: 20),
+                        const Text('SEXO'),
+                        const SizedBox(height: 4),
+                        Row(
+                          children: [
+                            _buildGenderOption(
+                              'Masculino',
+                              user.genero == 'Masculino',
+                            ),
+                            _buildGenderOption(
+                              'Femenino',
+                              user.genero == 'Femenino',
+                            ),
+                            _buildGenderOption('Otros', user.genero == 'Otros'),
+                          ],
+                        ),
                       ],
                     ),
-                  ],
-                ),
-              ),
+                  ),
       ),
     );
   }

@@ -9,6 +9,7 @@ import '../providers/auth_provider.dart';
 import 'package:go_router/go_router.dart';
 import '../widgets/custom_button.dart';
 import '../widgets/custom_text_field.dart';
+import '../providers/user_provider.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -18,8 +19,8 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final _userController = TextEditingController(text: 'daniel@correo.com');
-  final _passController = TextEditingController(text: '123456'); //iniciar sesion rapido
+  final _userController = TextEditingController(text: 'daniel@example.com');
+  final _passController = TextEditingController(text: '12345678'); //iniciar sesion rapido
 
   String? _error;
 
@@ -28,11 +29,17 @@ class _LoginPageState extends State<LoginPage> {
     final password = _passController.text.trim();
 
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+
     final success = await authProvider.login(username, password);
 
     if (!mounted) return;
 
     if (success) {
+      await userProvider.loadUserProfile(authProvider.token!);
+
+      if (!mounted) return;
+
       context.go(AppRoutes.home);
     } else {
       setState(() {
@@ -40,6 +47,8 @@ class _LoginPageState extends State<LoginPage> {
       });
     }
   }
+
+
 
   @override
   Widget build(BuildContext context) {
