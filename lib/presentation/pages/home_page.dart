@@ -5,6 +5,7 @@ import '../widgets/product_card.dart';
 import '../widgets/custom_bottom_nav_bar.dart';
 import '../../routes/app_routes.dart';
 import 'package:go_router/go_router.dart';
+import 'package:tienda_online/presentation/pages/product_detail_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -122,12 +123,27 @@ class _HomePageState extends State<HomePage> {
                       controller: PageController(viewportFraction: 0.7),
                       itemCount: ofertas.length,
                       itemBuilder: (context, index) {
-                        final p = ofertas[index];
-                        return ProductCard(
-                          name: p['name'],
-                          price: p['price'],
-                          image: p['image'],
-                          isLiked: p['isliked'],
+                        final p = allProducts[index];
+                        return GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => ProductDetailPage(
+                                  name: p['name'],
+                                  price: p['price'],
+                                  image: p['image'],
+                                  description: 'Descripción de ejemplo para ${p['name']}.',
+                                ),
+                              ),
+                            );
+                          },
+                          child: ProductCard(
+                            name: p['name'],
+                            price: p['price'],
+                            image: p['image'],
+                            isLiked: p['isliked'],
+                          ),
                         );
                       },
                     ),
@@ -151,11 +167,26 @@ class _HomePageState extends State<HomePage> {
               ),
               itemBuilder: (context, index) {
                 final p = allProducts[index];
-                return ProductCard(
-                  name: p['name'],
-                  price: p['price'],
-                  image: p['image'],
-                  isLiked: p['isliked'],
+                return GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => ProductDetailPage(
+                          name: p['name'],
+                          price: p['price'],
+                          image: p['image'],
+                          description: 'Descripción de ejemplo para ${p['name']}.',
+                        ),
+                      ),
+                    );
+                  },
+                  child: ProductCard(
+                    name: p['name'],
+                    price: p['price'],
+                    image: p['image'],
+                    isLiked: p['isliked'],
+                  ),
                 );
               },
             ),
