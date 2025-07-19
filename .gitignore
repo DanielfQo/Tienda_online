@@ -123,5 +123,7 @@ backend/venv/
 
 backend/tests/static/
 
+#migrations
+/migrations/
 .env
 venv/
