@@ -16,37 +16,38 @@ class ProductModel extends Product {
   factory ProductModel.fromJson(Map<String, dynamic> json) {
     return ProductModel(
       id: json['id'],
-      name: json['name'],
-      description: json['description'],
+      name: json['name'] ?? '',
+      description: json['description'] ?? '',
       purchasePrice: (json['purchase_price'] is int)
           ? (json['purchase_price'] as int).toDouble()
-          : double.parse(json['purchase_price'].toString()),
+          : double.tryParse(json['purchase_price'].toString()) ?? 0.0,
       salePrice: (json['sale_price'] is int)
           ? (json['sale_price'] as int).toDouble()
-          : double.parse(json['sale_price'].toString()),
+          : double.tryParse(json['sale_price'].toString()) ?? 0.0,
       stock: json['stock'] ?? 0,
-      createdAt: DateTime.parse(json['created_at']),
-      imageUrls: List<String>.from(
-        (json['images'] as List<dynamic>).map((img) => img['url'] as String),
-      ),
-      attributes: List<String>.from(
-        (json['values'] as List<dynamic>).map(
-          (val) => val['value']?.toString() ?? '',
-        ),
-      ),
+      createdAt: DateTime.tryParse(json['created_at'] ?? '') ?? DateTime.now(),
+      imageUrls:
+          (json['images'] as List<dynamic>?)
+              ?.map((img) => img['url'] as String)
+              .toList() ??
+          [],
+      attributes:
+          (json['values'] as List<dynamic>?)
+              ?.map((val) => val['value']?.toString() ?? '')
+              .toList() ??
+          [],
     );
   }
 
-
   Map<String, dynamic> toJson() => {
-        'id': id,
-        'name': name,
-        'description': description,
-        'purchase_price': purchasePrice,
-        'sale_price': salePrice,
-        'stock': stock,
-        'created_at': createdAt.toIso8601String(),
-        'images': imageUrls.map((url) => {'url': url}).toList(),
-        'values': attributes.map((attr) => {'value': attr}).toList(),
-      };
+    'id': id,
+    'name': name,
+    'description': description,
+    'purchase_price': purchasePrice,
+    'sale_price': salePrice,
+    'stock': stock,
+    'created_at': createdAt.toIso8601String(),
+    'images': imageUrls.map((url) => {'url': url}).toList(),
+    'values': attributes.map((attr) => {'value': attr}).toList(),
+  };
 }

@@ -24,6 +24,7 @@ def get_product(id):
         return jsonify({"msg": "Product not found"}), 404
     return jsonify(ProductSchema().dump(prod)), 200
 
+
 @product_bp.route("/", methods=["POST"])
 @jwt_required()
 def post_product():
@@ -34,6 +35,24 @@ def post_product():
     data = ProductSchema().load(request.json)
     new = create_product(data)
     return jsonify(ProductSchema().dump(new)), 201
+
+@product_bp.route("/<int:id>/images", methods=["POST"])
+@jwt_required()
+def add_product_image(id):
+    prod = get_product_by_id(id)
+    if not prod:
+        return jsonify({"msg": "Product not found"}), 404
+    
+    url = request.json.get("url")
+    if not url:
+        return jsonify({"msg": "URL required"}), 400
+    
+    image = ProductImage(product_id=id, url=url)
+    db.session.add(image)
+    db.session.commit()
+    return jsonify(ProductImageSchema().dump(image)), 201
+
+
 
 @product_bp.route("/<int:id>", methods=["PUT"])
 @jwt_required()

@@ -39,9 +39,7 @@ class _HomePageState extends State<HomePage> {
     final productsProvider = Provider.of<ProductsProvider>(context);
 
     if (productsProvider.isLoading) {
-      return const Scaffold(
-        body: Center(child: CircularProgressIndicator()),
-      );
+      return const Scaffold(body: Center(child: CircularProgressIndicator()));
     }
 
     if (productsProvider.error != null) {
@@ -54,28 +52,27 @@ class _HomePageState extends State<HomePage> {
     final ofertas = allProducts.where((p) => p.oferta).toList();
 
     return SafeArea(
-        child: SingleChildScrollView(
-          padding: AppTheme.padding,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Buscador
-              Row(
-                children: [
-                  Expanded(
-                    child: Container(
-                      height: 40,
-                      decoration: BoxDecoration(
-                        color: LightColor.lightGrey.withAlpha(100),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: const TextField(
-                        decoration: InputDecoration(
-                          hintText: 'Buscar productos',
-                          border: InputBorder.none,
-                          prefixIcon: Icon(Icons.search, color: Colors.black54),
-                          contentPadding: EdgeInsets.only(top: 10),
-                        ),
+      child: SingleChildScrollView(
+        padding: AppTheme.padding,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Buscador
+            Row(
+              children: [
+                Expanded(
+                  child: Container(
+                    height: 40,
+                    decoration: BoxDecoration(
+                      color: LightColor.lightGrey.withAlpha(100),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: const TextField(
+                      decoration: InputDecoration(
+                        hintText: 'Buscar productos',
+                        border: InputBorder.none,
+                        prefixIcon: Icon(Icons.search, color: Colors.black54),
+                        contentPadding: EdgeInsets.only(top: 10),
                       ),
                     ),
                   ),
@@ -115,99 +112,125 @@ class _HomePageState extends State<HomePage> {
                     );
                   },
                 ),
-              ),
+              ],
+            ),
 
-              const SizedBox(height: 16),
+            const SizedBox(height: 16),
 
-              // Ofertas
-              if (ofertas.isNotEmpty)
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      "Ofertas",
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(height: 12),
-                    SizedBox(
-                      height: 250,
-                      child: PageView.builder(
-                        controller: PageController(viewportFraction: 0.7),
-                        itemCount: ofertas.length,
-                        itemBuilder: (context, index) {
-                          final p = ofertas[index];
-                          return GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (_) => ProductDetailPage(
-                                    name: p.name,
-                                    price: p.salePrice,
-                                    images: p.imageUrls,
-                                    description: p.description,
-                                  ),
-                                ),
-                              );
-                            },
-                            child: ProductCard(
-                              name: p.name,
-                              price: p.salePrice,
-                              image: p.imageUrls[0],
-                              isLiked: p.isLiked,
-                            ),
-                          );
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-
-              const SizedBox(height: 20),
-
-              // Grid de productos
-              GridView.builder(
-                physics: const NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                itemCount: allProducts.length,
-                padding: const EdgeInsets.symmetric(vertical: 10),
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 10,
-                  mainAxisSpacing: 10,
-                  childAspectRatio: 0.75,
-                ),
+            // Categorías horizontales
+            SizedBox(
+              height: 80,
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: categories.length,
                 itemBuilder: (context, index) {
-                  final p = allProducts[index];
+                  final category = categories[index];
+                  final selected = _selectedCategoryIndex == index;
                   return GestureDetector(
                     onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) => ProductDetailPage(
-                            name: p.name,
-                            price: p.salePrice,
-                            images: p.imageUrls,
-                            description: p.description,
-                          ),
-                        ),
-                      );
+                      setState(() {
+                        _selectedCategoryIndex = index;
+                      });
+                      // Aquí podrías filtrar productos según categoría
                     },
-                    child: ProductCard(
-                      name: p.name,
-                      price: p.salePrice,
-                      image: p.imageUrls[0],
-                      isLiked: p.isLiked,
+                    child: _buildCategoryIcon(
+                      category['icon'],
+                      category['label'],
+                      selected,
                     ),
                   );
                 },
               ),
-            ],
-          ),
+            ),
+
+            const SizedBox(height: 16),
+
+            // Ofertas
+            if (ofertas.isNotEmpty)
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    "Ofertas",
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 12),
+                  SizedBox(
+                    height: 250,
+                    child: PageView.builder(
+                      controller: PageController(viewportFraction: 0.7),
+                      itemCount: ofertas.length,
+                      itemBuilder: (context, index) {
+                        final p = ofertas[index];
+                        return GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => ProductDetailPage(
+                                  name: p.name,
+                                  price: p.salePrice,
+                                  images: p.imageUrls,
+                                  description: p.description,
+                                ),
+                              ),
+                            );
+                          },
+                          child: ProductCard(
+                            name: p.name,
+                            price: p.salePrice,
+                            image: p.imageUrls[0],
+                            isLiked: p.isLiked,
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              ),
+
+            const SizedBox(height: 20),
+
+            // Grid de productos
+            GridView.builder(
+              physics: const NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemCount: allProducts.length,
+              padding: const EdgeInsets.symmetric(vertical: 10),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                crossAxisSpacing: 10,
+                mainAxisSpacing: 10,
+                childAspectRatio: 0.75,
+              ),
+              itemBuilder: (context, index) {
+                final p = allProducts[index];
+                return GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => ProductDetailPage(
+                          name: p.name,
+                          price: p.salePrice,
+                          images: p.imageUrls,
+                          description: p.description,
+                        ),
+                      ),
+                    );
+                  },
+                  child: ProductCard(
+                    name: p.name,
+                    price: p.salePrice,
+                    image: p.imageUrls[0],
+                    isLiked: p.isLiked,
+                  ),
+                );
+              },
+            ),
+          ],
         ),
+      ),
     );
   }
 
@@ -224,7 +247,11 @@ class _HomePageState extends State<HomePage> {
       ),
       child: Row(
         children: [
-          Icon(icon, size: 24, color: selected ? LightColor.orange : Colors.black),
+          Icon(
+            icon,
+            size: 24,
+            color: selected ? LightColor.orange : Colors.black,
+          ),
           const SizedBox(width: 8),
           Text(label, style: const TextStyle(fontWeight: FontWeight.bold)),
         ],

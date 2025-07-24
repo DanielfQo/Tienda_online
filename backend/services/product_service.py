@@ -7,6 +7,13 @@ def list_products():
     in_stock = Product.query.filter(Product.stock > 0).all()
     return out_of_stock + in_stock
 
+def list_products(only_published=True):
+    q = Product.query
+    if only_published and hasattr(Product, 'published'):
+        q = q.filter_by(published=True)
+    return q.all()
+
+
 def get_product_by_id(product_id):
     return Product.query.get(product_id)
 
