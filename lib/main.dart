@@ -7,19 +7,24 @@ import 'routes/app_router.dart';
 
 import 'data/datasources/auth_remote_datasource_impl.dart';
 import 'data/datasources/user_remote_datasource_impl.dart';
+import 'data/datasources/product_remote_datasource_impl.dart';
 
 import 'data/repositories/auth_repository_impl.dart';
 import 'data/repositories/user_repository_impl.dart';
+import 'data/repositories/product_repository_impl.dart';
 
 import 'domain/usecases/login_user.dart';
 import 'domain/usecases/register_user.dart';
 import 'domain/usecases/get_user_profile.dart';
+import 'domain/usecases/get_all_products.dart';
 
 import 'presentation/providers/auth_provider.dart';
 import 'presentation/providers/user_provider.dart';
+import 'presentation/providers/products_provider.dart';
 
 void main() {
   final client = http.Client();
+
   final authDatasource = AuthRemoteDatasourceImpl(client);
   final authRepository = AuthRepositoryImpl(authDatasource);
   final loginUserUsecase = LoginUser(authRepository);
@@ -29,6 +34,10 @@ void main() {
   final userRepository = UserRepositoryImpl(userDatasource);
   final userProfileUsecase = GetUserProfile(userRepository);
 
+  final productsDatasource = ProductRemoteDataSourceImpl(client);
+  final productsRepository = ProductRepositoryImpl(productsDatasource);
+  final getAllProductsUsecase = GetAllProducts(productsRepository);
+
   runApp(
     MultiProvider(
       providers: [
@@ -37,6 +46,9 @@ void main() {
         ),
         ChangeNotifierProvider(
           create: (_) => UserProvider(userProfileUsecase),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => ProductsProvider(getAllProductsUsecase),
         ),
       ],
       child: const MyApp(),

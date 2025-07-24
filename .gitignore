@@ -121,6 +121,8 @@ app.*.symbols
 # Backend 
 backend/venv/
 
+backend/tests/static/
 
 .env
-venv/
+venv/.DS_Store
+temp_backup/

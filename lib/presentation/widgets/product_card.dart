@@ -23,7 +23,7 @@ class ProductCard extends StatelessWidget {
         padding: const EdgeInsets.all(12),
         child: Stack(
           children: [
-            // Icono de corazón
+
             Positioned(
               top: 0,
               right: 0,
@@ -35,7 +35,7 @@ class ProductCard extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                // Imagen con fondo circular
+                
                 Stack(
                   alignment: Alignment.center,
                   children: [
@@ -44,8 +44,8 @@ class ProductCard extends StatelessWidget {
                       backgroundColor: Color(0xFFFFE0B2),
                     ),
                     image.isNotEmpty
-                        ? Image.asset(image, height: 60)
-                        : const Icon(Icons.image, size: 60),
+                      ? Image.network(image, height: 60)
+                      : const Icon(Icons.image, size: 60),
                   ],
                 ),
                 const SizedBox(height: 8),

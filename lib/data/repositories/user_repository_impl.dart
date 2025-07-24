@@ -1,6 +1,9 @@
 import '../../domain/entities/user.dart';
-import '../../domain/repositories/user_repository.dart';
 import '../datasources/user_remote_datasource_impl.dart';
+
+abstract class UserRepository {
+  Future<User> getUserProfile(String token);
+}
 
 class UserRepositoryImpl implements UserRepository {
   final UserRemoteDatasource remoteDatasource;

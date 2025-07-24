@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import '../../core/theme/light_color.dart';
 import '../../core/theme/app_theme.dart';
 import '../providers/auth_provider.dart';
+import '../providers/user_provider.dart';
 import '../../routes/app_routes.dart';
 import '../widgets/custom_button.dart';
 import '../widgets/profile_option_tile.dart';
@@ -16,6 +17,8 @@ class ProfilePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final authProvider = context.watch<AuthProvider>();
     final isLoggedIn = authProvider.isLoggedIn;
+
+    'Usuario';
 
     return Scaffold(
       backgroundColor: LightColor.backgroundProfile,
@@ -46,7 +49,7 @@ class ProfilePage extends StatelessWidget {
                 right: 10,
                 child: IconButton(
                   icon: const Icon(Icons.close, size: 28, color: Colors.black),
-                  onPressed: () => context.go(AppRoutes.home),
+                  onPressed: () => context.go(AppRoutes.initial),
                 ),
               ),
             ],
@@ -77,6 +80,11 @@ class ProfilePage extends StatelessWidget {
   }
 
   Widget _buildLoggedInView(BuildContext context, AuthProvider authProvider) {
+    final userProvider = context.watch<UserProvider>();
+    final user = userProvider.user;
+    String nombreUsuario = userProvider.user?.nombre ?? 'Usuario';
+    nombreUsuario = nombreUsuario.toUpperCase();
+
     return Padding(
       padding: AppTheme.padding,
       child: Column(
@@ -86,7 +94,7 @@ class ProfilePage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'KEVIN ANDRE',
+                nombreUsuario,
                 style: AppTheme.h1Style.copyWith(fontWeight: FontWeight.bold),
               ),
               Row(
@@ -97,7 +105,7 @@ class ProfilePage extends StatelessWidget {
                       size: 28,
                       color: Colors.black,
                     ),
-                    onPressed: () => context.go(AppRoutes.home),
+                    onPressed: () => context.go(AppRoutes.initial),
                   ),
                 ],
               ),
@@ -137,6 +145,13 @@ class ProfilePage extends StatelessWidget {
                   subtitle: 'Soporte y preguntas frecuentes',
                   onTap: () {},
                 ),
+                if (user?.rol == 'admin')
+                  ProfileOptionTile(
+                    icon: Icons.admin_panel_settings_outlined,
+                    title: 'Administración',
+                    subtitle: 'Vista administrador',
+                    onTap: () => context.go(AppRoutes.homeAdmin),
+                  ),
               ],
             ),
           ),
@@ -146,7 +161,7 @@ class ProfilePage extends StatelessWidget {
             text: 'Cerrar sesión',
             onPressed: () {
               authProvider.logout();
-              context.go(AppRoutes.home);
+              context.go(AppRoutes.initial);
             },
             icon: Icons.logout,
           ),

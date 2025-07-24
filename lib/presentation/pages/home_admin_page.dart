@@ -1,40 +1,71 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+
 import '../../core/theme/light_color.dart';
+import '../../routes/app_routes.dart';
 import '../widgets/custom_button.dart';
 import '../widgets/admin_category_button.dart';
 import '../widgets/resumen_card.dart';
 import '../widgets/ingresos_line_chart.dart';
+import '../widgets/admin_app_bar.dart';
 
 class HomeAdminPage extends StatelessWidget {
   const HomeAdminPage({super.key});
 
   final List<Map<String, dynamic>> categorias = const [
-    {'icon': Icons.people, 'label': 'Usuarios'},
-    {'icon': Icons.inventory, 'label': 'Productos'},
-    {'icon': Icons.bar_chart, 'label': 'Ventas'},
-    {'icon': Icons.handshake, 'label': 'Préstamos'},
-    {'icon': Icons.money_off, 'label': 'Gastos'},
-    {'icon': Icons.account_balance_wallet, 'label': 'Deudas'},
-    {'icon': Icons.insert_chart, 'label': 'Reportes'},
-    {'icon': Icons.calendar_today, 'label': 'Calendario'},
-    {'icon': Icons.location_city, 'label': 'Sedes'},
+    {'icon': Icons.people, 'label': 'Usuarios', 'route': AppRoutes.adminUsers},
+    {
+      'icon': Icons.inventory,
+      'label': 'Productos',
+      'route': AppRoutes.adminProducts,
+    },
+    {'icon': Icons.bar_chart, 'label': 'Ventas', 'route': AppRoutes.adminSales},
+    {
+      'icon': Icons.handshake,
+      'label': 'Préstamos',
+      'route': AppRoutes.adminLoans,
+    },
+    {
+      'icon': Icons.money_off,
+      'label': 'Gastos',
+      'route': AppRoutes.adminExpenses,
+    },
+    {
+      'icon': Icons.account_balance_wallet,
+      'label': 'Deudas',
+      'route': AppRoutes.adminDebts,
+    },
+    {
+      'icon': Icons.insert_chart,
+      'label': 'Reportes',
+      'route': AppRoutes.adminReports,
+    },
+    {
+      'icon': Icons.calendar_today,
+      'label': 'Calendario',
+      'route': AppRoutes.adminCalendar,
+    },
+    {
+      'icon': Icons.location_city,
+      'label': 'Sedes',
+      'route': AppRoutes.adminBranches,
+    },
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: LightColor.backgroundProfile,
-      appBar: AppBar(
-        title: const Text('Thunder Dashboard'),
-        centerTitle: true,
-        backgroundColor: Colors.orange,
+      appBar: const AdminAppBar(
+        title: 'Thunder Dashboard',
+        returnRoute: AppRoutes.initial,
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Categorías arriba
+            const SizedBox(height: 8),
             const Text(
               'Accesos rápidos',
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
@@ -53,19 +84,18 @@ class HomeAdminPage extends StatelessWidget {
                 return AdminCategoryButton(
                   icon: cat['icon'],
                   label: cat['label'],
-                  onTap: () {}, // Puedes agregar navegación
+                  onTap: () {
+                    context.go(cat['route']);
+                  },
                 );
               },
             ),
-
             const SizedBox(height: 24),
-
             const Text(
               'Resumen del mes',
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 12),
-
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: const [
@@ -86,36 +116,30 @@ class HomeAdminPage extends StatelessWidget {
                 ),
               ],
             ),
-
             const SizedBox(height: 24),
             const Text(
               'Ingresos semanales',
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
-            SizedBox(height: 12),
+            const SizedBox(height: 12),
             const IngresosLineChart(),
-
             const SizedBox(height: 24),
             const Text(
               'Más vendidos',
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 8),
-
-            ListTile(
-              leading: const CircleAvatar(child: Icon(Icons.shopping_cart)),
-              title: const Text('Zapato X'),
-              subtitle: const Text('150 vendidos'),
-              trailing: const Icon(Icons.arrow_forward_ios, size: 16),
-              onTap: () {},
+            const ListTile(
+              leading: CircleAvatar(child: Icon(Icons.shopping_cart)),
+              title: Text('Zapato X'),
+              subtitle: Text('150 vendidos'),
+              trailing: Icon(Icons.arrow_forward_ios, size: 16),
             ),
-
-            ListTile(
-              leading: const CircleAvatar(child: Icon(Icons.shopping_cart)),
-              title: const Text('Polo blanco'),
-              subtitle: const Text('120 vendidos'),
-              trailing: const Icon(Icons.arrow_forward_ios, size: 16),
-              onTap: () {},
+            const ListTile(
+              leading: CircleAvatar(child: Icon(Icons.shopping_cart)),
+              title: Text('Polo blanco'),
+              subtitle: Text('120 vendidos'),
+              trailing: Icon(Icons.arrow_forward_ios, size: 16),
             ),
           ],
         ),

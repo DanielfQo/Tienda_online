@@ -67,7 +67,6 @@ class AuthRemoteDatasourceImpl implements AuthRemoteDatasource {
         'email': correo,
         'password': contrasena,
         'role': rol,
-        'store_id': tiendaId,
       }),
     );
 

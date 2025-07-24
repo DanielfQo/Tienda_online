@@ -29,6 +29,8 @@ class Client(db.Model):
     phone = db.Column(db.String(20))
 
     user = db.relationship("User", back_populates="client")
+    wishlist = db.relationship("Wishlist", backref="client", uselist=False)
+    shopping_cart = db.relationship("ShoppingCart", backref="client")
 
 class Admin(db.Model):
     __tablename__ = 'admins'

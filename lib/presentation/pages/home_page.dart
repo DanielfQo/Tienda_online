@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../../core/theme/light_color.dart';
 import '../../core/theme/app_theme.dart';
 import '../widgets/product_card.dart';
-import '../widgets/custom_bottom_nav_bar.dart';
 import '../../routes/app_routes.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tienda_online/presentation/pages/product_detail_page.dart';
+
+import '../providers/products_provider.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -16,184 +18,196 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int _currentIndex = 0;
+  int _selectedCategoryIndex = 0;
 
-  final List<Map<String, dynamic>> allProducts = List.generate(
-    10,
-    (i) => {
-      'name': 'Producto ${i + 1}',
-      'price': (i + 1) * 10.0,
-      'image': 'assets/images/shoe.png', // reemplaza con tus imágenes
-      'oferta': i % 2 == 0,
-      'isliked': false,
-    },
-  );
+  final List<Map<String, dynamic>> categories = [
+    {'icon': Icons.directions_walk, 'label': 'Sneakers'},
+    {'icon': Icons.checkroom, 'label': 'Jacket'},
+    {'icon': Icons.watch, 'label': 'Watch'},
+  ];
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Provider.of<ProductsProvider>(context, listen: false).loadProducts();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    final ofertas = allProducts.where((p) => p['oferta'] == true).toList();
+    final productsProvider = Provider.of<ProductsProvider>(context);
 
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: LightColor.background,
-        elevation: 0,
-        title: const Text(
-          "Thunder",
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
-        ),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.person_outline), 
-            onPressed: () {
-              context.go(AppRoutes.profile);
-            },
-          ),
-        ],
-      ),
-      body: SingleChildScrollView(
-        padding: AppTheme.padding,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // 🔍 Buscador
-            Row(
-              children: [
-                Expanded(
-                  child: Container(
-                    height: 40,
-                    decoration: BoxDecoration(
-                      color: LightColor.lightGrey.withAlpha(100),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: const TextField(
-                      decoration: InputDecoration(
-                        hintText: 'Buscar productos',
-                        border: InputBorder.none,
-                        prefixIcon: Icon(Icons.search, color: Colors.black54),
-                        contentPadding: EdgeInsets.only(top: 10),
+    if (productsProvider.isLoading) {
+      return const Scaffold(
+        body: Center(child: CircularProgressIndicator()),
+      );
+    }
+
+    if (productsProvider.error != null) {
+      return Scaffold(
+        body: Center(child: Text('Error: ${productsProvider.error}')),
+      );
+    }
+
+    final allProducts = productsProvider.products;
+    final ofertas = allProducts.where((p) => p.oferta).toList();
+
+    return SafeArea(
+        child: SingleChildScrollView(
+          padding: AppTheme.padding,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Buscador
+              Row(
+                children: [
+                  Expanded(
+                    child: Container(
+                      height: 40,
+                      decoration: BoxDecoration(
+                        color: LightColor.lightGrey.withAlpha(100),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: const TextField(
+                        decoration: InputDecoration(
+                          hintText: 'Buscar productos',
+                          border: InputBorder.none,
+                          prefixIcon: Icon(Icons.search, color: Colors.black54),
+                          contentPadding: EdgeInsets.only(top: 10),
+                        ),
                       ),
                     ),
                   ),
-                ),
-                const SizedBox(width: 10),
-                IconButton(
-                  icon: const Icon(Icons.filter_list, color: Colors.black54),
-                  onPressed: () {},
-                ),
-              ],
-            ),
-
-            const SizedBox(height: 16),
-
-            // Categorías (falsas por ahora)
-            SizedBox(
-              height: 80,
-              child: ListView(
-                scrollDirection: Axis.horizontal,
-                children: [
-                  _buildCategoryIcon(
-                    Icons.directions_walk,
-                    'Sneakers',
-                    true,
+                  const SizedBox(width: 10),
+                  IconButton(
+                    icon: const Icon(Icons.filter_list, color: Colors.black54),
+                    onPressed: () {
+                      // Accion filtro aquí si quieres
+                    },
                   ),
-                  _buildCategoryIcon(
-                    Icons.checkroom,
-                    'Jacket',
-                    false,
-                  ),
-                  _buildCategoryIcon(Icons.watch, 'Watch', false),
                 ],
               ),
-            ),
 
-            const SizedBox(height: 16),
+              const SizedBox(height: 16),
 
-            // Slider de productos en oferta
-            if (ofertas.isNotEmpty)
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    "Ofertas",
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(height: 12),
-                  SizedBox(
-                    height: 250,
-                    child: PageView.builder(
-                      controller: PageController(viewportFraction: 0.7),
-                      itemCount: ofertas.length,
-                      itemBuilder: (context, index) {
-                        final p = allProducts[index];
-                        return GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (_) => ProductDetailPage(
-                                  name: p['name'],
-                                  price: p['price'],
-                                  image: p['image'],
-                                  description: 'Descripción de ejemplo para ${p['name']}.',
-                                ),
-                              ),
-                            );
-                          },
-                          child: ProductCard(
-                            name: p['name'],
-                            price: p['price'],
-                            image: p['image'],
-                            isLiked: p['isliked'],
-                          ),
-                        );
+              // Categorias horizontales
+              SizedBox(
+                height: 80,
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: categories.length,
+                  itemBuilder: (context, index) {
+                    final category = categories[index];
+                    final selected = _selectedCategoryIndex == index;
+                    return GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          _selectedCategoryIndex = index;
+                        });
+                        // Aquí podrías filtrar productos según categoría
                       },
-                    ),
-                  ),
-                ],
-              ),
-
-            const SizedBox(height: 20),
-
-            // Grid de productos
-            GridView.builder(
-              physics: const NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              itemCount: allProducts.length,
-              padding: const EdgeInsets.symmetric(vertical: 10),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                crossAxisSpacing: 10,
-                mainAxisSpacing: 10,
-                childAspectRatio: 0.75,
-              ),
-              itemBuilder: (context, index) {
-                final p = allProducts[index];
-                return GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => ProductDetailPage(
-                          name: p['name'],
-                          price: p['price'],
-                          image: p['image'],
-                          description: 'Descripción de ejemplo para ${p['name']}.',
-                        ),
+                      child: _buildCategoryIcon(
+                        category['icon'],
+                        category['label'],
+                        selected,
                       ),
                     );
                   },
-                  child: ProductCard(
-                    name: p['name'],
-                    price: p['price'],
-                    image: p['image'],
-                    isLiked: p['isliked'],
-                  ),
-                );
-              },
-            ),
-          ],
-        ),
-      ),
+                ),
+              ),
 
+              const SizedBox(height: 16),
+
+              // Ofertas
+              if (ofertas.isNotEmpty)
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      "Ofertas",
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+                    SizedBox(
+                      height: 250,
+                      child: PageView.builder(
+                        controller: PageController(viewportFraction: 0.7),
+                        itemCount: ofertas.length,
+                        itemBuilder: (context, index) {
+                          final p = ofertas[index];
+                          return GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (_) => ProductDetailPage(
+                                    name: p.name,
+                                    price: p.salePrice,
+                                    images: p.imageUrls,
+                                    description: p.description,
+                                  ),
+                                ),
+                              );
+                            },
+                            child: ProductCard(
+                              name: p.name,
+                              price: p.salePrice,
+                              image: p.imageUrls[0],
+                              isLiked: p.isLiked,
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+
+              const SizedBox(height: 20),
+
+              // Grid de productos
+              GridView.builder(
+                physics: const NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                itemCount: allProducts.length,
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  crossAxisSpacing: 10,
+                  mainAxisSpacing: 10,
+                  childAspectRatio: 0.75,
+                ),
+                itemBuilder: (context, index) {
+                  final p = allProducts[index];
+                  return GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => ProductDetailPage(
+                            name: p.name,
+                            price: p.salePrice,
+                            images: p.imageUrls,
+                            description: p.description,
+                          ),
+                        ),
+                      );
+                    },
+                    child: ProductCard(
+                      name: p.name,
+                      price: p.salePrice,
+                      image: p.imageUrls[0],
+                      isLiked: p.isLiked,
+                    ),
+                  );
+                },
+              ),
+            ],
+          ),
+        ),
     );
   }
 

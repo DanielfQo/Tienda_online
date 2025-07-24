@@ -5,6 +5,11 @@ import 'search_page.dart';
 import 'cart_page.dart';
 import 'wish_list_page.dart';
 
+import '../../core/theme/light_color.dart';
+import '../../core/theme/app_theme.dart';
+
+import '../../routes/app_routes.dart';
+import 'package:go_router/go_router.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -30,7 +35,30 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _pages[_currentIndex],
+      appBar: AppBar(
+        backgroundColor: LightColor.orange,
+        elevation: 1,
+        centerTitle: true,
+        title: const Text(
+          "Thunder",
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 24,
+            color: Colors.black,
+          ),
+        ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.person_outline, color: Colors.black),
+            onPressed: () {
+              context.go(AppRoutes.profile);
+            },
+          ),
+        ],
+      ),
+      body: SafeArea(
+        child: _pages[_currentIndex],
+      ),
       bottomNavigationBar: CustomBottomNavBar(
         currentIndex: _currentIndex,
         onTap: _onTap,

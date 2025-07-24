@@ -1,6 +1,12 @@
 import '../../domain/entities/user.dart';
-import '../../domain/repositories/auth_repository.dart';
 import '../datasources/auth_remote_datasource_impl.dart';
+
+abstract class AuthRepository {
+  Future<(String token, User)> login(String email, String password);
+  Future<User> register(String nombre, String correo, String contrasena, String rol, int? tiendaId);
+
+}
+
 
 class AuthRepositoryImpl implements AuthRepository {
   final AuthRemoteDatasource remoteDatasource;
@@ -17,4 +23,5 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<User> register(String nombre, String correo, String contrasena, String rol, int? tiendaId) {
     return remoteDatasource.register(nombre, correo, contrasena, rol, tiendaId);
   }
+
 }
