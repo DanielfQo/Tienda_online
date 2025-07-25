@@ -5,4 +5,5 @@ class ApiEndpoints {
   static const String register = '$baseUrl/api/users/register';
   static const String profile = '$baseUrl/api/users/profile';
   static const String products = '$baseUrl/api/products/';
+  static const String wishlist = '$baseUrl/api/wishlist';
 }

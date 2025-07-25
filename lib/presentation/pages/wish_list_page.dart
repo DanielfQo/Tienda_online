@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:tienda_online/presentation/providers/auth_provider.dart';
+import 'package:tienda_online/presentation/providers/user_provider.dart';
+import '../providers/wishlist_provider.dart';
+import '../../domain/entities/product.dart';
 
 class WishListPage extends StatefulWidget {
   const WishListPage({super.key});
@@ -8,124 +13,77 @@ class WishListPage extends StatefulWidget {
 }
 
 class _WishListPageState extends State<WishListPage> {
-  List<Map<String, dynamic>> wishListItems = [
-    {'name': 'Producto A', 'price': 25.0, 'category': 'Sneakers'},
-    {'name': 'Producto B', 'price': 30.0, 'category': 'Watch'},
-    {'name': 'Producto C', 'price': 18.5, 'category': 'Sneakers'},
-    {'name': 'Producto D', 'price': 55.0, 'category': 'Jacket'},
-  ];
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final wishlistProvider = Provider.of<WishlistProvider>(context, listen: false);
+      final authProvider = Provider.of<AuthProvider>(context, listen: false);
+      final userProvider = Provider.of<UserProvider>(context, listen: false);
 
-  String? selectedCategory; //null ==== mostrar todos
+      final token = authProvider.token;
+      final clientId = userProvider.user?.id;
 
-  void _addToCart(int index) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('${wishListItems[index]["name"]} añadido al carrito')),
-    );
-  }
-
-  void _removeFromWishlist(int index) {
-    setState(() {
-      wishListItems.removeAt(index);
+      if (token != null && clientId != null) {
+        wishlistProvider.loadWishlist(clientId, token);
+        
+      }
     });
   }
 
-  void _viewProductDetails(Map<String, dynamic> product) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Detalles de ${product["name"]}')),
-    );
-  }
-
-  Widget _buildCategorySelector() {
-    final categories = ['Todos', 'Sneakers', 'Jacket', 'Watch'];
-
-    return SizedBox(
-      height: 60,
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        itemCount: categories.length,
-        itemBuilder: (context, index) {
-          final cat = categories[index];
-          final isSelected = (selectedCategory == null && cat == 'Todos') ||
-          (selectedCategory == cat);
-
-          return GestureDetector(
-            onTap: () {
-              setState(() {
-                selectedCategory = (cat == 'Todos') ? null : cat;
-              });
-            },
-            child: Container(
-              margin: const EdgeInsets.symmetric(horizontal: 8),
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-              decoration: BoxDecoration(
-                color: isSelected ? Colors.orange : Colors.grey.shade200,
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Center(
-                child: Text(
-                  cat,
-                  style: TextStyle(
-                    color: isSelected ? Colors.white : Colors.black,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ),
-          );
-        },
-      ),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
-    final filteredItems = selectedCategory == null
-    ? wishListItems
-    : wishListItems
-    .where((item) => item['category'] == selectedCategory)
-    .toList();
+    final wishlistProvider = Provider.of<WishlistProvider>(context);
+    final wishListItems = wishlistProvider.wishlist;
+    final isLoading = wishlistProvider.isLoading;
 
-    return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const SizedBox(height: 8),
-          _buildCategorySelector(),
-          const Divider(),
-          Expanded(
-            child: filteredItems.isEmpty
-            ? const Center(child: Text("No hay productos en esta categoría."))
-            : ListView.separated(
-              padding: const EdgeInsets.all(16),
-              itemCount: filteredItems.length,
-              separatorBuilder: (_, __) => const Divider(),
-              itemBuilder: (context, index) {
-                final item = filteredItems[index];
-                return ListTile(
-                  onTap: () => _viewProductDetails(item),
-                  title: Text(item['name']),
-                  subtitle: Text('\$${item['price']}'),
-                  trailing: Wrap(
-                    spacing: 8,
-                    children: [
-                      IconButton(
-                        icon: const Icon(Icons.shopping_cart),
-                        tooltip: 'Agregar al carrito',
-                        onPressed: () => _addToCart(index),
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Lista de Deseos'),
+      ),
+      body: isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : wishListItems.isEmpty
+              ? const Center(child: Text('No hay productos en tu lista de deseos'))
+              : ListView.builder(
+                  itemCount: wishListItems.length,
+                  itemBuilder: (context, index) {
+                    final item = wishListItems[index];
+                    return ListTile(
+                      onTap: () => _viewProductDetails(item),
+                      title: Text(item.name),
+                      subtitle: Text('\$${item.salePrice.toStringAsFixed(2)}'),
+                      trailing: Wrap(
+                        spacing: 8,
+                        children: [
+                          IconButton(
+                            icon: const Icon(Icons.shopping_cart),
+                            tooltip: 'Agregar al carrito',
+                            onPressed: () => _addToCart(item),
+                          ),
+                          IconButton(
+                            icon: const Icon(Icons.delete),
+                            tooltip: 'Eliminar',
+                            onPressed: () => _removeFromWishlist(item),
+                          ),
+                        ],
                       ),
-                      IconButton(
-                        icon: const Icon(Icons.delete),
-                        tooltip: 'Eliminar',
-                        onPressed: () => _removeFromWishlist(index),
-                      ),
-                    ],
-                  ),
-                );
-              },
-            ),
-          ),
-        ],
+                    );
+                  },
+                ),
     );
   }
+
+  void _viewProductDetails(Product product) {
+    // TODO: Implementar navegación a la pantalla de detalles del producto
+  }
+
+  void _addToCart(Product product) {
+    // TODO: Implementar lógica para agregar al carrito
+  }
+
+  void _removeFromWishlist(Product product) {
+    // TODO: Implementar lógica para eliminar de la wishlist
+  }
 }
-
-
