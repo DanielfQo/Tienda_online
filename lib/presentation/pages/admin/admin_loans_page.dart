@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../widgets/admin_app_bar.dart';
 
 class AdminLoansPage extends StatelessWidget {
   const AdminLoansPage({super.key});

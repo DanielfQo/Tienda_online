@@ -25,6 +25,7 @@ import '../presentation/pages/admin/admin_debts_page.dart';
 import '../presentation/pages/admin/admin_reports_page.dart';
 import '../presentation/pages/admin/admin_calendar_page.dart';
 import '../presentation/pages/admin/admin_branches_page.dart';
+import '../presentation/pages/admin/admin_product_create_page.dart';
 
 final GoRouter appRouter = GoRouter(
   initialLocation: AppRoutes.initial,
@@ -103,6 +104,10 @@ final GoRouter appRouter = GoRouter(
     GoRoute(
       path: AppRoutes.adminBranches,
       builder: (context, state) => const AdminBranchesPage(),
+    ),
+    GoRoute(
+      path: AppRoutes.adminProductsCreate,
+      builder: (context, state) => const AdminProductCreatePage(),
     ),
   ],
 );

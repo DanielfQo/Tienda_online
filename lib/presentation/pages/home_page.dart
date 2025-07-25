@@ -83,7 +83,7 @@ class _HomePageState extends State<HomePage> {
                   IconButton(
                     icon: const Icon(Icons.filter_list, color: Colors.black54),
                     onPressed: () {
-                      // Acción filtro aquí si quieres
+                      // Accion filtro aquí si quieres
                     },
                   ),
                 ],
@@ -91,7 +91,7 @@ class _HomePageState extends State<HomePage> {
 
               const SizedBox(height: 16),
 
-              // Categorías horizontales
+              // Categorias horizontales
               SizedBox(
                 height: 80,
                 child: ListView.builder(

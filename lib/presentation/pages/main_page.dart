@@ -5,6 +5,9 @@ import 'search_page.dart';
 import 'cart_page.dart';
 import 'wish_list_page.dart';
 
+import '../../core/theme/light_color.dart';
+import '../../core/theme/app_theme.dart';
+
 import '../../routes/app_routes.dart';
 import 'package:go_router/go_router.dart';
 
@@ -33,7 +36,7 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: LightColor.orange,
         elevation: 1,
         centerTitle: true,
         title: const Text(
