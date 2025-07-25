@@ -65,7 +65,7 @@ def advanced_search(
     price_min=None,
     price_max=None,
     in_stock=False,
-    order_by="price_asc",
+    order_by=None,
     attribute_filters=None,
     category_id=None
 ):
@@ -78,4 +78,8 @@ def advanced_search(
     query = apply_attribute_filters(query, attribute_filters)
     query = apply_ordering(query, order_by, search_text)
 
-    return query.all()
+    if search_text:
+        result = query.all()
+        return [row[0] for row in result]  # Solo devolver el Product
+    else:
+        return query.all()
