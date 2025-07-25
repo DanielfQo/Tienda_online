@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:tienda_online/presentation/providers/auth_provider.dart';
+import 'package:tienda_online/presentation/providers/user_provider.dart';
+import 'package:tienda_online/presentation/providers/wishlist_provider.dart';
 
 class ProductDetailPage extends StatelessWidget {
+  final int productId;
   final String name;
   final double price;
   final List<String> images;
@@ -8,6 +13,7 @@ class ProductDetailPage extends StatelessWidget {
 
   const ProductDetailPage({
     super.key,
+    required this.productId,
     required this.name,
     required this.price,
     required this.images,
@@ -65,9 +71,28 @@ class ProductDetailPage extends StatelessWidget {
                 ),
                 const SizedBox(width: 10),
                 IconButton(
-                  icon: const Icon(Icons.favorite_border), //whishlist
-                  onPressed: () {},
+                  icon: const Icon(Icons.favorite_border),
+                  onPressed: () {
+                    final wishlistProvider = Provider.of<WishlistProvider>(context, listen: false);
+                    final authProvider = Provider.of<AuthProvider>(context, listen: false);
+                    final userProvider = Provider.of<UserProvider>(context, listen: false);
+
+                    final token = authProvider.token;
+                    final clientId = userProvider.user?.id;
+
+                    if (token != null && clientId != null) {
+                      wishlistProvider.addToWishlist(productId, clientId, token);
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('Producto añadido a la lista de deseos')),
+                      );
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('Debes iniciar sesión')),
+                      );
+                    }
+                  },
                 ),
+
               ],
             ),
           ],

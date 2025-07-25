@@ -146,6 +146,7 @@ class _HomePageState extends State<HomePage> {
                                 MaterialPageRoute(
                                   builder: (_) => ProductDetailPage(
                                     name: p.name,
+                                    productId: p.id, 
                                     price: p.salePrice,
                                     images: p.imageUrls,
                                     description: p.description,
@@ -189,6 +190,7 @@ class _HomePageState extends State<HomePage> {
                         MaterialPageRoute(
                           builder: (_) => ProductDetailPage(
                             name: p.name,
+                            productId: p.id,
                             price: p.salePrice,
                             images: p.imageUrls,
                             description: p.description,

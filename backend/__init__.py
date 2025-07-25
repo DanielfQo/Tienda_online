@@ -15,10 +15,14 @@ def create_app():
     # blueprints
     from backend.controllers.product_controller import product_bp
     from backend.controllers.user_controller import user_bp
+    from backend.controllers.search_controller import search_bp
+    from backend.controllers.wishlist_controller import wishlist_bp
     
     app.register_blueprint(product_bp, url_prefix='/api/products')
     app.register_blueprint(user_bp, url_prefix='/api/users')
-    
+    app.register_blueprint(search_bp, url_prefix='/api/search')
+    app.register_blueprint(wishlist_bp, url_prefix='/api/wishlist')
+
     @app.route('/')
     def health_check():
         return jsonify({"status": "OK", "message": "Server is running"})

@@ -123,6 +123,8 @@ backend/venv/
 
 backend/tests/static/
 
+#migrations
+/migrations/
 .env
 venv/.DS_Store
 temp_backup/

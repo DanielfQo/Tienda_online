@@ -8,9 +8,13 @@ def get_or_create_wishlist(client_id):
 
     # si no exite se crea
     if not wishlist:
-        wishlist = Wishlist(client_id=client_id)
+        wishlist = Wishlist(
+            client_id=client_id,
+            name=f"Wishlist de usuario {client_id}" #TODO: cambiar por nombre del usuario si se tiene
+        )
         db.session.add(wishlist)
         db.session.commit()
+
     return wishlist
 
 def add_to_wishlist(client_id, product_id):

@@ -3,6 +3,7 @@ import uuid
 from flask import current_app, jsonify, request
 from backend.extensions import db
 from backend.models.user import User
+from backend.models.user import Client 
 from werkzeug.security import generate_password_hash
 from werkzeug.utils import secure_filename
 
@@ -10,6 +11,7 @@ ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
 
 def register_user(data):
     hashed_password = generate_password_hash(data["password"])
+
     user = User(
         name=data["name"],
         email=data["email"],
@@ -18,7 +20,16 @@ def register_user(data):
         store_id=data.get("store_id")
     )
     db.session.add(user)
-    db.session.commit()
+    db.session.commit()  # Necesario para que user.id esté disponible
+
+    # Si el usuario es cliente, crear entrada en Client
+    if data["role"] == "client":
+        client = Client(
+            user_id=user.id,
+        )
+        db.session.add(client)
+        db.session.commit()
+
     return user
 
 def get_user_by_email(email):
