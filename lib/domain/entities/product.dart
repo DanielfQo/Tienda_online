@@ -10,6 +10,9 @@ class Product {
   final List<String> attributes;
   final bool oferta;    // TODO: verificar bd
   bool isLiked;         //
+  final int categoryId;
+  final int storeId;
+
 
   Product({
     required this.id,
@@ -23,5 +26,7 @@ class Product {
     required this.attributes,
     this.oferta = false,
     this.isLiked = false,
+    required this.categoryId,
+    required this.storeId,
   });
 }

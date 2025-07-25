@@ -17,10 +17,13 @@ import 'domain/usecases/login_user.dart';
 import 'domain/usecases/register_user.dart';
 import 'domain/usecases/get_user_profile.dart';
 import 'domain/usecases/get_all_products.dart';
+import 'domain/usecases/create_product.dart';
+
 
 import 'presentation/providers/auth_provider.dart';
 import 'presentation/providers/user_provider.dart';
 import 'presentation/providers/products_provider.dart';
+
 
 void main() {
   final client = http.Client();
@@ -38,6 +41,9 @@ void main() {
   final productsRepository = ProductRepositoryImpl(productsDatasource);
   final getAllProductsUsecase = GetAllProducts(productsRepository);
 
+  final createProductUsecase = CreateProduct(productsRepository);
+
+
   runApp(
     MultiProvider(
       providers: [
@@ -48,7 +54,7 @@ void main() {
           create: (_) => UserProvider(userProfileUsecase),
         ),
         ChangeNotifierProvider(
-          create: (_) => ProductsProvider(getAllProductsUsecase),
+          create: (_) => ProductsProvider(getAllProductsUsecase, createProductUsecase),
         ),
       ],
       child: const MyApp(),

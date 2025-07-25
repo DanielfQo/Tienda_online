@@ -11,10 +11,27 @@ def get_product_by_id(product_id):
     return Product.query.get(product_id)
 
 def create_product(data):
-    prod = Product(**data)
-    db.session.add(prod)
+
+    images = data.pop('images', [])
+    attributes = data.pop('attributes', [])
+
+    product = Product(**data)
+    db.session.add(product)
+    db.session.flush()
+
+    for img_url in images:
+        image = ProductImage(product_id=product.id, url=img_url)
+        db.session.add(image)
+
+    for attr in attributes:
+        attribute_id = attr.get('attribute_id')
+        value = attr.get('value')
+        if attribute_id and value:
+            pav = ProductAttributeValue(product_id=product.id, attribute_id=attribute_id, value=value)
+            db.session.add(pav)
+
     db.session.commit()
-    return prod
+    return product
 
 def adjust_stock(product, new_stock):
     product.stock = max(0, new_stock)
