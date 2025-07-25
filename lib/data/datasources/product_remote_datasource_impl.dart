@@ -5,6 +5,7 @@ import '../api_endpoints.dart';
 
 abstract class ProductRemoteDataSource {
   Future<List<ProductModel>> getAllProducts();
+  Future<ProductModel> createProduct(ProductModel product);
 }
 
 class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
@@ -23,4 +24,24 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
       throw Exception('Error al cargar productos');
     }
   }
+
+  @override
+  Future<ProductModel> createProduct(ProductModel product) async {
+    final response = await client.post(
+      Uri.parse(ApiEndpoints.products),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer TU_TOKEN'
+      },
+      body: jsonEncode(product.toJson()),
+    );
+
+    if (response.statusCode == 201) {
+      final decoded = json.decode(utf8.decode(response.bodyBytes));
+      return ProductModel.fromJson(decoded);
+    } else {
+      throw Exception('Error al crear producto');
+    }
+  }
+
 }
