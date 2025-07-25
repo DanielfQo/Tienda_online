@@ -1,6 +1,9 @@
 import 'package:tienda_online/domain/entities/product.dart';
 
 class ProductModel extends Product {
+  final int categoryId;
+  final int storeId;
+
   ProductModel({
     required super.id,
     required super.name,
@@ -11,9 +14,14 @@ class ProductModel extends Product {
     required super.createdAt,
     required super.imageUrls,
     required super.attributes,
+    required this.categoryId,
+    required this.storeId,
     super.oferta = false,
     super.isLiked = false,
-  });
+  }) : super(
+    categoryId: categoryId,
+    storeId: storeId,
+  );
 
   factory ProductModel.fromJson(Map<String, dynamic> json) {
     return ProductModel(
@@ -36,6 +44,8 @@ class ProductModel extends Product {
           (val) => val['value']?.toString() ?? '',
         ),
       ),
+      categoryId: json['category_id'],
+      storeId: json['store_id'],
       oferta: json['oferta'] ?? false,
       isLiked: json['isLiked'] ?? false,
     );
@@ -49,6 +59,8 @@ class ProductModel extends Product {
     'sale_price': salePrice,
     'stock': stock,
     'created_at': createdAt.toIso8601String(),
+    'category_id': categoryId,
+    'store_id': storeId,
     'images': imageUrls.map((url) => {'url': url}).toList(),
     'values': attributes.map((attr) => {'value': attr}).toList(),
     'oferta': oferta,
@@ -62,14 +74,16 @@ class ProductModel extends Product {
     salePrice: salePrice,
     purchasePrice: purchasePrice,
     stock: stock,
-    imageUrls: imageUrls,
     createdAt: createdAt,
+    imageUrls: imageUrls,
     attributes: attributes,
+    categoryId: categoryId,
+    storeId: storeId,
     oferta: oferta,
     isLiked: isLiked,
   );
 
-  static ProductModel fromEntity(Product entity) => ProductModel(
+  factory ProductModel.fromEntity(Product entity) => ProductModel(
     id: entity.id,
     name: entity.name,
     description: entity.description,
@@ -79,8 +93,9 @@ class ProductModel extends Product {
     createdAt: entity.createdAt,
     imageUrls: entity.imageUrls,
     attributes: entity.attributes,
+    categoryId: entity.categoryId,
+    storeId: entity.storeId,
     oferta: entity.oferta,
     isLiked: entity.isLiked,
   );
 }
-

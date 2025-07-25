@@ -5,7 +5,7 @@ import '../models/product_model.dart';
 
 abstract class ProductRepository {
   Future<List<Product>> getAllProducts();
-  Future<Product> createProduct(Product product);
+  Future<Product> createProduct(Product product, String token);
 }
 
 class ProductRepositoryImpl implements ProductRepository {
@@ -16,13 +16,14 @@ class ProductRepositoryImpl implements ProductRepository {
   @override
   Future<List<Product>> getAllProducts() async {
     final models = await remoteDataSource.getAllProducts();
-    return models;
-  }
-  @override
-  Future<Product> createProduct(Product product) async {
-    final model = ProductModel.fromEntity(product);
-    final created = await remoteDataSource.createProduct(model);
-    return created.toEntity();
+    return models.map((model) => model.toEntity()).toList();
   }
 
+  @override
+  Future<Product> createProduct(Product product, String token) async {
+    final model = ProductModel.fromEntity(product);
+    final createdModel = await remoteDataSource.createProduct(model, token);
+    return createdModel.toEntity();
+  }
 }
+

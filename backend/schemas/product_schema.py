@@ -49,6 +49,9 @@ class ProductCreateSchema(SQLAlchemyAutoSchema):
     category_id = auto_field(required=True)
     store_id = auto_field(required=True)
     description = auto_field()
+    images = fields.List(fields.String(), required=False)
+    attributes = fields.List(fields.Nested(ProductAttributeValueSchema), required=False)
+
 
 class ProductSchema(ProductCreateSchema):
     id = auto_field(dump_only=True)
